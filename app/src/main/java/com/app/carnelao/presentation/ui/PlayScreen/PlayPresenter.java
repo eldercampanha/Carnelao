@@ -11,15 +11,16 @@ import com.app.carnelao.util.Constants;
 
 public class PlayPresenter implements PlayContract.Presenter{
 
+    private Constants.ValueAnimatorLevel mCurrentLevel;
+
     private PlayContract.View mView;
     private Context mContext;
     private int countRight = 0;
     private int countLeft = 0;
-    private boolean isMoving;
 
     private int IMAGE_WIDTH = 70;
-
-    private Constants.ValueAnimatorLevel mCurrentLevel;
+    private int IMAGE_HEIGHT = 70;
+    private int NAV_BAR_HEIGHT = 100;
 
     @Override
     public void setContext(Context context) {
@@ -35,20 +36,18 @@ public class PlayPresenter implements PlayContract.Presenter{
     @Override
     public void hitRightSide() {
         countRight++;
-        isMoving = false;
         mView.updateRightScoreLabel("" + countRight);
     }
 
     @Override
     public void hitLeftSide() {
         countLeft++;
-        isMoving = false;
         mView.updateLeftScoreLabel("" + countLeft);
     }
 
     @Override
     public void moveRight() {
-        isMoving = true;
+
         int screenWidth = mContext.getResources().getDisplayMetrics().widthPixels;
         int finalPosition = screenWidth/2 + IMAGE_WIDTH;
         mView.moveRight(finalPosition, mCurrentLevel.getSideWaysTime());
@@ -56,8 +55,6 @@ public class PlayPresenter implements PlayContract.Presenter{
 
     @Override
     public void moveLeft() {
-
-        isMoving = true;
 
         int screenWidth = mContext.getResources().getDisplayMetrics().widthPixels;
         int distance =  screenWidth/2 + IMAGE_WIDTH;
@@ -70,6 +67,9 @@ public class PlayPresenter implements PlayContract.Presenter{
 
     @Override
     public void startGame() {
-        mView.startGame(mCurrentLevel);
+
+        int screenHeight = mContext.getResources().getDisplayMetrics().heightPixels - IMAGE_HEIGHT - NAV_BAR_HEIGHT;
+
+        mView.startGame(screenHeight, mCurrentLevel.getUpToDownTime());
     }
 }

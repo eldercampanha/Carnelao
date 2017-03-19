@@ -12,7 +12,7 @@ public interface PlayContract {
 
     interface View{
 
-        void startGame(Constants.ValueAnimatorLevel level);
+        void startGame(int finalPosition, int animationDuration);
         void updateLeftScoreLabel(String score);
         void updateRightScoreLabel(String score);
         void moveRight(int distance, int animationDuration);
