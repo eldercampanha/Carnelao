@@ -6,8 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
-    android:gravity="center"
-    tools:context="com.app.carnelao.PlayScreen">
+    tools:context="com.app.carnelao.presentation.ui.PlayScreen.PlayActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:id="@+id/lbl_score_left"
+        android:text="0"/>
+
+    <TextView
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lbl_score_right"
+        android:textSize="30dp"
+        android:text="0"/>
 
     <ImageView
         android:layout_centerHorizontal="true"
@@ -17,12 +33,8 @@
         android:background="#FF00"
         />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"/>
-
         <LinearLayout
+
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
@@ -30,6 +42,7 @@
             android:gravity="center"
             android:id="@+id/linerLytTop"
             android:layout_marginBottom="50dp"
+
             android:background="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
@@ -38,8 +51,10 @@
 
         <RelativeLayout
             android:layout_below="@id/linerLytTop"
+            android:id="@+id/lyt_targets_container"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="270dp"
+            android:background="@null"
             android:layout_marginBottom="50dp">
 
             <LinearLayout
@@ -59,6 +74,31 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="LEFT"
+            android:onClick="btnLeftClicked"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:onClick="btnRightClicked"
+            android:text="RIGHT"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
 
