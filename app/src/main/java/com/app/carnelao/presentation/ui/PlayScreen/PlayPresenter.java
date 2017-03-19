@@ -43,6 +43,9 @@ public class PlayPresenter implements PlayContract.Presenter{
     public void hitLeftSide() {
         countLeft++;
         mView.updateLeftScoreLabel("" + countLeft);
+
+
+        mView.moveWallUp(50);
     }
 
     @Override

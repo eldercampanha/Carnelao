@@ -17,6 +17,7 @@ public interface PlayContract {
         void updateRightScoreLabel(String score);
         void moveRight(int distance, int animationDuration);
         void moveLeft (int distance, int animationDuration);
+        void moveWallUp(int newHeight);
     }
 
     interface Presenter{

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     private TextView lblScoreRight;
     private TextView lblScoreLeft;
     private RelativeLayout lytTargetsContainer;
+    private LinearLayout lytWall;
     ValueAnimator valueAnimator;
     private boolean isMoving = false;
     private PlayContract.Presenter presenter;
@@ -38,6 +40,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         lblScoreLeft = (TextView)findViewById(R.id.lbl_score_left);
         lblScoreRight = (TextView)findViewById(R.id.lbl_score_right);
         lytTargetsContainer = (RelativeLayout) findViewById(R.id.lyt_targets_container);
+        lytWall = (LinearLayout) findViewById(R.id.lyt_wall);
 
         presenter = new PlayPresenter();
         presenter.attach(this);
@@ -109,6 +112,12 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setDuration(animationDuration);
         valueAnimator.start();
+    }
+
+    @Override
+    public void moveWallUp(int newHeight) {
+        lytWall.getLayoutParams().height = lytWall.getHeight() + newHeight;
+        lytWall.requestLayout();
     }
 
 

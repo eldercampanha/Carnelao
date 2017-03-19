@@ -76,9 +76,20 @@
         </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/lyt_wall"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/colorPrimaryDark"
+        android:weightSum="2"
+        android:layout_above="@+id/lyt_buttons"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:weightSum="2"
+        android:id="@+id/lyt_buttons"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -98,7 +109,9 @@
             android:text="RIGHT"
             android:layout_weight="1"/>
 
+
     </LinearLayout>
+
 
 </RelativeLayout>
 
