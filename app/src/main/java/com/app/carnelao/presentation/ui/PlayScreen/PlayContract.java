@@ -1,6 +1,7 @@
 package com.app.carnelao.presentation.ui.PlayScreen;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.app.carnelao.util.Constants;
 
@@ -12,12 +13,13 @@ public interface PlayContract {
 
     interface View{
 
-        void startGame(int finalPosition, int animationDuration);
-        void updateLeftScoreLabel(String score);
-        void updateRightScoreLabel(String score);
-        void moveRight(int distance, int animationDuration);
-        void moveLeft (int distance, int animationDuration);
-        void moveWallUp(int newHeight);
+        void resetScreen(int finalPosition, int animationDuration);
+        void updateFailsLabel(String score);
+        void updateScoreLabel(String score);
+        void moveItemRight(int distance, int animationDuration);
+        void moveItemLeft(int distance, int animationDuration);
+        void moveWallUp(int addValue);
+        void setImageItem(int bitmap);
     }
 
     interface Presenter{
@@ -28,6 +30,7 @@ public interface PlayContract {
         void moveRight();
         void moveLeft();
         void startGame();
+        void setNewObject();
     }
 
 }

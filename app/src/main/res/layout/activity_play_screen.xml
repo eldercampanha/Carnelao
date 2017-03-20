@@ -27,10 +27,9 @@
 
     <ImageView
         android:layout_centerHorizontal="true"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:id="@+id/imgItem"
-        android:background="#FF00"
         />
 
         <LinearLayout

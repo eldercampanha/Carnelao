@@ -1,33 +1,29 @@
 package com.app.carnelao.presentation.ui.PlayScreen;
 
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.carnelao.R;
-import com.app.carnelao.util.Constants;
-
-import java.util.logging.Level;
 
 public class PlayActivity extends AppCompatActivity implements PlayContract.View{
 
-    private ImageView item;
+    private ImageView imgItem;
     private TextView lblScoreRight;
     private TextView lblScoreLeft;
     private RelativeLayout lytTargetsContainer;
     private LinearLayout lytWall;
-    ValueAnimator valueAnimator;
+    private ValueAnimator valueAnimator;
     private boolean isMoving = false;
     private PlayContract.Presenter presenter;
 
@@ -36,50 +32,51 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_screen);
 
-        item = (ImageView) findViewById(R.id.imgItem);
+        // bind views
+        imgItem = (ImageView) findViewById(R.id.imgItem);
         lblScoreLeft = (TextView)findViewById(R.id.lbl_score_left);
         lblScoreRight = (TextView)findViewById(R.id.lbl_score_right);
         lytTargetsContainer = (RelativeLayout) findViewById(R.id.lyt_targets_container);
         lytWall = (LinearLayout) findViewById(R.id.lyt_wall);
 
+        // set up presenter
         presenter = new PlayPresenter();
         presenter.attach(this);
         presenter.setContext(getApplicationContext());
         presenter.startGame();
-
     }
 
     // UI methods
+
     public void btnLeftClicked(View button){
-        if(!isMoving)
-            presenter.moveLeft();
+        if(!isMoving) presenter.moveLeft();
     }
 
     public void btnRightClicked(View button){
-        if(!isMoving)
-            presenter.moveRight();
+        if(!isMoving) presenter.moveRight();
     }
 
-    // PRESENTER
+    // PRESENTER methods
+
     @Override
-    public void startGame(int finalPosition, int animationDuration) {
+    public void resetScreen(int finalPosition, int animationDuration) {
         lblScoreLeft.setText("0");
         lblScoreRight.setText("0");
+        Toast.makeText(this, "STAAAARTTTT", Toast.LENGTH_LONG).show();
         moveDown(finalPosition, animationDuration);
     }
 
     @Override
-    public void moveRight(final int distance, final int animationDuration) {
+    public void moveItemRight(final int distance, final int animationDuration) {
 
         isMoving = true;
-        item.bringToFront();
         valueAnimator = ValueAnimator.ofFloat(0,distance );
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
 
                 float value = (float) animation.getAnimatedValue();
-                item.setTranslationX(value);
+                imgItem.setTranslationX(value);
 
                 if(value >= distance && insideTargetRange()) {
                     presenter.hitRightSide();
@@ -92,17 +89,16 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     }
 
     @Override
-    public void moveLeft(final int distance, final int animationDuration) {
+    public void moveItemLeft(final int distance, final int animationDuration) {
 
         isMoving = true;
-        item.bringToFront();
         valueAnimator = ValueAnimator.ofFloat(0, distance);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
 
                 float value = (float) animation.getAnimatedValue();
-                item.setTranslationX(value);
+                imgItem.setTranslationX(value);
 
                 if(value <= distance && insideTargetRange()){
                     presenter.hitLeftSide();
@@ -114,28 +110,22 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         valueAnimator.start();
     }
 
-    @Override
-    public void moveWallUp(int newHeight) {
-        lytWall.getLayoutParams().height = lytWall.getHeight() + newHeight;
-        lytWall.requestLayout();
-    }
-
-
     public void moveDown(final int distance, final int animationDuration){
 
-        item.bringToFront();
+
+        imgItem.bringToFront();
         valueAnimator = ValueAnimator.ofFloat(0,distance);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
 
                 float value = (float) animation.getAnimatedValue();
-                item.setTranslationY(value);
+                imgItem.setTranslationY(value);
 
                 if(value >= distance){
-
-                    int xPosition = getWindowManager().getDefaultDisplay().getWidth()/ 2 - 70;
-                    item.setX(xPosition);
+                    presenter.setNewObject();
+                    int xPosition = getWindowManager().getDefaultDisplay().getWidth()/ 2 - imgItem.getWidth()/2;
+                    imgItem.setX(xPosition);
                     moveDown(distance,animationDuration);
                     isMoving = false;
                 }
@@ -150,18 +140,29 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     }
 
     @Override
-    public void updateLeftScoreLabel(String score) {
+    public void updateFailsLabel(String score) {
         lblScoreLeft.setText(score);
     }
 
     @Override
-    public void updateRightScoreLabel(String score) {
+    public void updateScoreLabel(String score) {
         lblScoreRight.setText(score);
     }
 
     public boolean insideTargetRange() {
         float minY = lytTargetsContainer.getY();
         float maxY = minY + lytTargetsContainer.getHeight();
-        return (item.getY() > minY && item.getY() < maxY);
+        return (imgItem.getY() > minY && imgItem.getY() < maxY);
+    }
+
+    @Override
+    public void moveWallUp(int addValue) {
+        lytWall.getLayoutParams().height = lytWall.getHeight() + addValue;
+        lytWall.requestLayout();
+    }
+
+    @Override
+    public void setImageItem(int imgResourceId) {
+        imgItem.setImageResource(imgResourceId);
     }
 }
