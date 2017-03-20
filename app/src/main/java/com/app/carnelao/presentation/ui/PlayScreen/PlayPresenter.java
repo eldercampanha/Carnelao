@@ -40,13 +40,13 @@ public class PlayPresenter implements PlayContract.Presenter{
         // used to the animation Right-to-Left and Left-to-Botton
         screenWidth = mContext.getResources().getDisplayMetrics().widthPixels;
         // used to the animation Top-to-Bottom and Verify the "height of the Wall"
-        screenHeight = mContext.getResources().getDisplayMetrics().heightPixels - IMAGE_HEIGHT - NAV_BAR_HEIGHT;
+        screenHeight = mContext.getResources().getDisplayMetrics().heightPixels + IMAGE_HEIGHT - NAV_BAR_HEIGHT;
     }
 
     @Override
     public void attach(PlayContract.View view) {
         mView = view;
-        mCurrentLevel = ValueAnimatorLevel.LEVEL_3;
+        mCurrentLevel = ValueAnimatorLevel.LEVEL_2;
     }
 
     @Override
