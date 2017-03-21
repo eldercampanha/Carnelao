@@ -1,9 +1,11 @@
 package com.app.carnelao.presentation.ui.PlayScreen;
 
 import android.animation.ValueAnimator;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,7 +35,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
 
         // bind views
         imgItem = (ImageView) findViewById(R.id.img_item);
-//        imgNextItem = (ImageView) findViewById(R.id.img_next_item);
+        imgNextItem = (ImageView) findViewById(R.id.img_next_item);
         lblScoreLeft = (TextView)findViewById(R.id.lbl_score_left);
         lblScoreRight = (TextView)findViewById(R.id.lbl_score_right);
         lytTargetsContainer = (RelativeLayout) findViewById(R.id.lyt_targets_container);
@@ -158,6 +160,11 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     // INTERNAL METHODS
 
     public void startConveyerAnimation(final int distance, final int animationDuration){
+
+        imgNextItem.setBackgroundResource(R.drawable.conveyor);
+        AnimationDrawable anim = (AnimationDrawable) imgNextItem.getBackground();
+        anim.start();
+
 
         valueAnimator = ValueAnimator.ofFloat(0,distance);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
