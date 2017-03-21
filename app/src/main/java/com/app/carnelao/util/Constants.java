@@ -19,10 +19,11 @@ public class Constants {
     }
 
     public static enum ValueAnimatorLevel {
-        LEVEL_1(2000, 400),
-        LEVEL_2(1000, 200),
-        LEVEL_3(500, 300),
-        LEVEL_4(400, 200);
+        LEVEL_1(1800, 400),
+        LEVEL_2(1500, 200),
+        LEVEL_3(1300, 300),
+        LEVEL_4(1100, 200),
+        LEVEL_5(900, 200);
 
 
         private final int upToDownTime;

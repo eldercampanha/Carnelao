@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">carnelao</string>
+    <string name="right"><![CDATA[>]]></string>
+    <string name="left"><![CDATA[<]]></string>
 </resources>
