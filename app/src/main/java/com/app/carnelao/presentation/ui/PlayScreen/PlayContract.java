@@ -20,6 +20,7 @@ public interface PlayContract {
         void moveItemLeft(int distance, int animationDuration);
         void moveWallUp(int addValue);
         void setImageItem(int bitmap);
+        void finishGame();
     }
 
     interface Presenter{
@@ -30,7 +31,10 @@ public interface PlayContract {
         void moveRight();
         void moveLeft();
         void startGame();
-        void setNewObject();
+        void newCicleStarted();
+        void touchTheBottom();
+        int getAnimationDuration();
+        boolean isGameOver();
     }
 
 }

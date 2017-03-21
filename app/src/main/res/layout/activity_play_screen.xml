@@ -29,32 +29,35 @@
         android:layout_centerHorizontal="true"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/imgItem"
+        android:id="@+id/img_item"
         />
 
         <LinearLayout
-
+            android:layout_marginBottom="70dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
-            android:id="@+id/linerLytTop"
-            android:layout_marginBottom="50dp"
-
+            android:id="@+id/lyt_top"
             android:background="@color/colorPrimaryDark"
             android:orientation="horizontal">
+
+            <!--<ImageView-->
+                <!--android:layout_width="70"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/img_next_item"-->
+                <!--/>-->
 
         </LinearLayout>
 
 
         <RelativeLayout
-            android:layout_below="@id/linerLytTop"
+            android:layout_below="@+id/lyt_top"
             android:id="@+id/lyt_targets_container"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:background="@null"
-            android:layout_marginBottom="50dp">
+            android:layout_height="250dp"
+            android:background="@null">
 
             <LinearLayout
                 android:gravity="left"
@@ -78,15 +81,17 @@
         android:id="@+id/lyt_wall"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="#FF0023"
         android:weightSum="2"
-        android:layout_above="@+id/lyt_buttons"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:orientation="horizontal">
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:weightSum="2"
         android:id="@+id/lyt_buttons"
         android:layout_alignParentBottom="true"
@@ -96,16 +101,18 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="LEFT"
+            android:layout_height="match_parent"
+            android:text="@string/left"
+            android:textSize="50dp"
             android:onClick="btnLeftClicked"
             android:layout_weight="1"/>
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:onClick="btnRightClicked"
-            android:text="RIGHT"
+            android:text="@string/right"
+            android:textSize="50dp"
             android:layout_weight="1"/>
 
 

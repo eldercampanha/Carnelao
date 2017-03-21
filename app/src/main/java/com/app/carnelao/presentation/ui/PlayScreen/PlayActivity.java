@@ -1,11 +1,8 @@
 package com.app.carnelao.presentation.ui.PlayScreen;
 
 import android.animation.ValueAnimator;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -19,12 +16,14 @@ import com.app.carnelao.R;
 public class PlayActivity extends AppCompatActivity implements PlayContract.View{
 
     private ImageView imgItem;
+    private ImageView imgNextItem;
     private TextView lblScoreRight;
     private TextView lblScoreLeft;
     private RelativeLayout lytTargetsContainer;
+    private LinearLayout lytTop;
     private LinearLayout lytWall;
+    private LinearLayout lytButtons;
     private ValueAnimator valueAnimator;
-    private boolean isMoving = false;
     private PlayContract.Presenter presenter;
 
     @Override
@@ -33,27 +32,37 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         setContentView(R.layout.activity_play_screen);
 
         // bind views
-        imgItem = (ImageView) findViewById(R.id.imgItem);
+        imgItem = (ImageView) findViewById(R.id.img_item);
+//        imgNextItem = (ImageView) findViewById(R.id.img_next_item);
         lblScoreLeft = (TextView)findViewById(R.id.lbl_score_left);
         lblScoreRight = (TextView)findViewById(R.id.lbl_score_right);
         lytTargetsContainer = (RelativeLayout) findViewById(R.id.lyt_targets_container);
         lytWall = (LinearLayout) findViewById(R.id.lyt_wall);
+        lytButtons = (LinearLayout) findViewById(R.id.lyt_buttons);
+        lytTop = (LinearLayout) findViewById(R.id.lyt_top);
 
         // set up presenter
         presenter = new PlayPresenter();
         presenter.attach(this);
         presenter.setContext(getApplicationContext());
         presenter.startGame();
+
+        // set up View layers order
+        imgItem.bringToFront();
+        lytWall.bringToFront();
+        lytButtons.bringToFront();
+        lytTop.bringToFront();
+
     }
 
     // UI methods
 
     public void btnLeftClicked(View button){
-        if(!isMoving) presenter.moveLeft();
+         presenter.moveLeft();
     }
 
     public void btnRightClicked(View button){
-        if(!isMoving) presenter.moveRight();
+        presenter.moveRight();
     }
 
     // PRESENTER methods
@@ -62,14 +71,13 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     public void resetScreen(int finalPosition, int animationDuration) {
         lblScoreLeft.setText("0");
         lblScoreRight.setText("0");
-        Toast.makeText(this, "STAAAARTTTT", Toast.LENGTH_LONG).show();
-        moveDown(finalPosition, animationDuration);
+        Toast.makeText(this, "STAAAARTTTT", Toast.LENGTH_SHORT).show();
+        startConveyerAnimation(finalPosition, animationDuration);
     }
 
     @Override
     public void moveItemRight(final int distance, final int animationDuration) {
 
-        isMoving = true;
         valueAnimator = ValueAnimator.ofFloat(0,distance );
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -78,8 +86,11 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
                 float value = (float) animation.getAnimatedValue();
                 imgItem.setTranslationX(value);
 
-                if(value >= distance && insideTargetRange()) {
-                    presenter.hitRightSide();
+                if(value >= distance){
+                    if( insideTargetRange())
+                      presenter.hitRightSide();
+                    else
+                      presenter.touchTheBottom();
                 }
             }
         });
@@ -91,7 +102,6 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     @Override
     public void moveItemLeft(final int distance, final int animationDuration) {
 
-        isMoving = true;
         valueAnimator = ValueAnimator.ofFloat(0, distance);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -100,40 +110,14 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
                 float value = (float) animation.getAnimatedValue();
                 imgItem.setTranslationX(value);
 
-                if(value <= distance && insideTargetRange()){
-                    presenter.hitLeftSide();
+                if(value <= distance ){
+                    if(insideTargetRange())
+                        presenter.hitLeftSide();
+                    else
+                        presenter.touchTheBottom();
                 }
             }
         });
-        valueAnimator.setInterpolator(new LinearInterpolator());
-        valueAnimator.setDuration(animationDuration);
-        valueAnimator.start();
-    }
-
-    public void moveDown(final int distance, final int animationDuration){
-
-
-        imgItem.bringToFront();
-        valueAnimator = ValueAnimator.ofFloat(0,distance);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-
-                float value = (float) animation.getAnimatedValue();
-                imgItem.setTranslationY(value);
-
-                if(value >= distance){
-                    presenter.setNewObject();
-                    int xPosition = getWindowManager().getDefaultDisplay().getWidth()/ 2 - imgItem.getWidth()/2;
-                    imgItem.setX(xPosition);
-                    moveDown(distance,animationDuration);
-                    isMoving = false;
-                }
-
-            }
-
-        });
-
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setDuration(animationDuration);
         valueAnimator.start();
@@ -164,5 +148,40 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     @Override
     public void setImageItem(int imgResourceId) {
         imgItem.setImageResource(imgResourceId);
+    }
+
+    @Override
+    public void finishGame() {
+        valueAnimator.setRepeatCount(1);
+    }
+
+    // INTERNAL METHODS
+
+    public void startConveyerAnimation(final int distance, final int animationDuration){
+
+        valueAnimator = ValueAnimator.ofFloat(0,distance);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                float value = (float) animation.getAnimatedValue();
+                imgItem.setTranslationY(value);
+
+                if(value >= distance){
+                    int xPosition = getWindowManager().getDefaultDisplay().getWidth()/ 2 - imgItem.getWidth()/2;
+                    imgItem.setX(xPosition);
+
+                    presenter.newCicleStarted();
+                    if(!presenter.isGameOver())
+                        startConveyerAnimation(distance,presenter.getAnimationDuration());
+                }
+
+            }
+
+        });
+
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setDuration(animationDuration);
+        valueAnimator.start();
     }
 }
