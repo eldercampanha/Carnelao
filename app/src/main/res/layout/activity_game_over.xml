@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/game_over"
+    tools:context="com.app.carnelao.presentation.ui.gameover.GameOverActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/img_carmelao"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitStart"
+            android:onClick="btnPlayAgainClicked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_margin="20dp"
+            android:src="@drawable/play_again"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_score"
+            android:textColor="#FFF"
+            android:textSize="70dp"
+            android:layout_marginRight="150dp"
+            android:layout_alignTop="@+id/imageButton"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="35dp" />
+
+        <ImageButton
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="50dp"
+            android:scaleType="fitEnd"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@null"
+            android:src="@drawable/carnelao"
+            android:layout_alignParentRight="true"
+            android:id="@+id/imageButton" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,9 +1,6 @@
-package com.app.carnelao.presentation.ui.PlayScreen;
+package com.app.carnelao.presentation.ui.playscreen;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-
-import com.app.carnelao.util.Constants;
 
 /**
  * Created by elder-dell on 2017-03-19.
@@ -20,6 +17,7 @@ public interface PlayContract {
         void moveItemLeft(int distance, int animationDuration);
         void moveWallUp(int addValue);
         void setImageItem(int bitmap);
+        void setWallAlpha(double newAlpha);
         void finishGame();
     }
 
