@@ -1,4 +1,4 @@
-package com.app.carnelao.presentation.ui.PlayScreen;
+package com.app.carnelao.presentation.ui.playscreen;
 
 import android.content.Context;
 import android.os.CountDownTimer;
@@ -112,8 +112,14 @@ public class PlayPresenter implements PlayContract.Presenter{
         // used to block all methods
         this.gaveOver = false;
 
+        // reset game variables
+        wallHeight = 5;
+        countRight = 0;
+        countLeft = 0;
+        mCurrentLevel = ValueAnimatorLevel.LEVEL_1;
         mTimer.start();
 
+        // start conveyor
         mView.resetScreen(screenHeight, mCurrentLevel.getUpToDownTime());
     }
 
@@ -121,7 +127,7 @@ public class PlayPresenter implements PlayContract.Presenter{
     public void hitRightSide() {
         if(this.gaveOver) return;
 
-        // DID SCORE
+        // DID SCORE_BUNDLE_KEY
         if(mItem.getType() == ItemType.CARNE
                 || mItem.getType() == ItemType.PAPELAO){
 
@@ -132,7 +138,6 @@ public class PlayPresenter implements PlayContract.Presenter{
         // DID MISS
         if(mItem.getType() == ItemType.OTHER){
             countLeft++;
-            mView.updateFailsLabel("" + countLeft);
 
             // wall should move up
             this.touchTheBottom();
@@ -143,7 +148,7 @@ public class PlayPresenter implements PlayContract.Presenter{
     public void hitLeftSide() {
         if(this.gaveOver) return;
 
-        // DID SCORE
+        // DID SCORE_BUNDLE_KEY
         if(mItem.getType() == ItemType.OTHER){
             countRight++;
             mView.updateScoreLabel("" + countRight);
@@ -153,7 +158,6 @@ public class PlayPresenter implements PlayContract.Presenter{
         if(mItem.getType() == ItemType.CARNE
                 || mItem.getType() == ItemType.PAPELAO){
             countLeft++;
-            mView.updateFailsLabel("" + countLeft);
 
             // wall should move up
             this.touchTheBottom();
@@ -192,8 +196,18 @@ public class PlayPresenter implements PlayContract.Presenter{
         // variable used for verify if the wall height has crossed the limit
         wallHeight +=wallIncreaseValue;
 
+        if(wallHeight >= (int)screenHeight*0.2)
+            mView.setWallAlpha(0.7);
+
+        if(wallHeight >= (int)screenHeight*0.4)
+            mView.setWallAlpha(0.8);
+
+        if(wallHeight >= (int)screenHeight*0.6)
+            mView.setWallAlpha(0.9);
+
         // end game if the Wall Height is bigger then 80% of the screen
         if(wallHeight >= (int)screenHeight*0.8) {
+            mView.setWallAlpha(0.9);
             mView.finishGame();
             gaveOver = true;
         }
@@ -225,7 +239,7 @@ public class PlayPresenter implements PlayContract.Presenter{
 
             case 0: // CARNE
                 mItem.setType(ItemType.CARNE);
-                mItem.setImageResourceId(R.drawable.ic_beef_flat_icon);
+                mItem.setImageResourceId(R.drawable.carnelao);
                 break;
 
             case 1: // PAPELAO
@@ -255,4 +269,6 @@ public class PlayPresenter implements PlayContract.Presenter{
     public boolean isGameOver() {
         return gaveOver;
     }
+
+
 }

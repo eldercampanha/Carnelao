@@ -11,6 +11,8 @@ import java.util.Random;
 
 public class Constants {
 
+    public static String SCORE_BUNDLE_KEY = "SCORE_BUNDLE_KEY";
+
     private static Random rand;
     public static enum ItemType{
         CARNE,
@@ -19,12 +21,11 @@ public class Constants {
     }
 
     public static enum ValueAnimatorLevel {
-        LEVEL_1(1800, 400),
-        LEVEL_2(1500, 200),
-        LEVEL_3(1300, 300),
-        LEVEL_4(1100, 200),
-        LEVEL_5(900, 200);
-
+        LEVEL_1(2300, 400),
+        LEVEL_2(2000, 200),
+        LEVEL_3(1600, 300),
+        LEVEL_4(1300, 200),
+        LEVEL_5(1100, 200);
 
         private final int upToDownTime;
         private final int sideWaysTime;
