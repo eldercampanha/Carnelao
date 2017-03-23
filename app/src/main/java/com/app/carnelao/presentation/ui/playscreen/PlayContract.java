@@ -2,6 +2,8 @@ package com.app.carnelao.presentation.ui.playscreen;
 
 import android.content.Context;
 
+import com.app.carnelao.util.Constants;
+
 /**
  * Created by elder-dell on 2017-03-19.
  */
@@ -18,6 +20,7 @@ public interface PlayContract {
         void moveWallUp(int addValue);
         void setImageItem(int bitmap);
         void setWallAlpha(double newAlpha);
+        void playSound(Constants.SoundId id);
         void finishGame();
     }
 

@@ -54,7 +54,7 @@ public class PlayPresenter implements PlayContract.Presenter{
             screenHeight = mContext.getResources().getDisplayMetrics().heightPixels - IMAGE_HEIGHT - NAV_BAR_HEIGHT;
 
             // used to calculate how much the wall's height should be increased (15%)
-            wallIncreaseValue = (int) (screenHeight * 0.015);
+            wallIncreaseValue = (int) (screenHeight * 0.03);
 
             // used to change the levels of the game
             setCountdownTime();
@@ -63,7 +63,7 @@ public class PlayPresenter implements PlayContract.Presenter{
     }
 
     private void setCountdownTime() {
-        mTimer = new CountDownTimer(110000, 1000){
+        mTimer = new CountDownTimer(64000, 1000){
 
             int time;
             @Override
@@ -75,17 +75,26 @@ public class PlayPresenter implements PlayContract.Presenter{
 
                 mView.updateFailsLabel(time + "");
                 switch (time){
-                    case 100:
+                    case 64:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_2;
                         break;
-                    case 90:
+                    case 56:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_3;
                         break;
-                    case 80:
+                    case 48:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_4;
                         break;
-                    case 70:
+                    case 40:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_5;
+                        break;
+                    case 32:
+                        mCurrentLevel = ValueAnimatorLevel.LEVEL_6;
+                        break;
+                    case 24:
+                        mCurrentLevel = ValueAnimatorLevel.LEVEL_7;
+                        break;
+                    case 16:
+                        mCurrentLevel = ValueAnimatorLevel.LEVEL_8;
                         break;
                 }
             }
@@ -119,6 +128,7 @@ public class PlayPresenter implements PlayContract.Presenter{
         mCurrentLevel = ValueAnimatorLevel.LEVEL_1;
         mTimer.start();
 
+        mView.playSound(SoundId.CONVEYOR);
         // start conveyor
         mView.resetScreen(screenHeight, mCurrentLevel.getUpToDownTime());
     }
@@ -141,6 +151,7 @@ public class PlayPresenter implements PlayContract.Presenter{
 
             // wall should move up
             this.touchTheBottom();
+            mView.playSound(SoundId.FAIL);
         }
     }
 
@@ -151,6 +162,7 @@ public class PlayPresenter implements PlayContract.Presenter{
         // DID SCORE_BUNDLE_KEY
         if(mItem.getType() == ItemType.OTHER){
             countRight++;
+
             mView.updateScoreLabel("" + countRight);
         }
 
@@ -161,6 +173,7 @@ public class PlayPresenter implements PlayContract.Presenter{
 
             // wall should move up
             this.touchTheBottom();
+            mView.playSound(SoundId.FAIL);
         }
     }
 
@@ -169,6 +182,7 @@ public class PlayPresenter implements PlayContract.Presenter{
         if(this.gaveOver) return;
 
         if(!isMoving) {
+            mView.playSound(SoundId.SWIPE_RIGHT);
             int distance = screenWidth / 2 + IMAGE_WIDTH;
             mView.moveItemRight(distance, mCurrentLevel.getSideWaysTime());
             isMoving = true;
@@ -180,6 +194,8 @@ public class PlayPresenter implements PlayContract.Presenter{
         if(this.gaveOver) return;
 
         if(!isMoving) {
+            mView.playSound(SoundId.SWIPE_LEFT);
+
             int distance = screenWidth / 2 + IMAGE_WIDTH;
 
             // right to left, so the distance should be negative
@@ -207,11 +223,13 @@ public class PlayPresenter implements PlayContract.Presenter{
 
         // end game if the Wall Height is bigger then 80% of the screen
         if(wallHeight >= (int)screenHeight*0.8) {
-            mView.setWallAlpha(0.9);
+            mView.playSound(SoundId.GAME_OVER);
+            mView.setWallAlpha(1);
             mView.finishGame();
             gaveOver = true;
         }
 
+        mView.playSound(SoundId.GATE);
         mView.moveWallUp(wallIncreaseValue);
     }
 
