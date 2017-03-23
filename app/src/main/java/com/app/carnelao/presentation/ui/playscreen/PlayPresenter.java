@@ -73,7 +73,6 @@ public class PlayPresenter implements PlayContract.Presenter{
 
                 time = (int)millisUntilFinished/1000;
 
-                mView.updateFailsLabel(time + "");
                 switch (time){
                     case 64:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_2;

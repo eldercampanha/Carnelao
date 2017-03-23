@@ -13,7 +13,6 @@ public interface PlayContract {
     interface View{
 
         void resetScreen(int finalPosition, int animationDuration);
-        void updateFailsLabel(String score);
         void updateScoreLabel(String score);
         void moveItemRight(int distance, int animationDuration);
         void moveItemLeft(int distance, int animationDuration);

@@ -9,20 +9,23 @@
     tools:context="com.app.carnelao.presentation.ui.playscreen.PlayActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:id="@+id/lbl_score_left"
-        android:text="0"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="30dp"-->
+        <!--android:id="@+id/lbl_score_left"-->
+        <!--android:text="0"/>-->
 
     <TextView
+        android:layout_marginRight="20dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lbl_score_right"
-        android:textSize="30dp"
+        android:textSize="50dp"
+        android:elegantTextHeight="true"
+        android:textColor="@color/colorPrimary"
         android:text="0"/>
 
     <ImageView
@@ -114,7 +117,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:weightSum="2"
         android:id="@+id/lyt_buttons"
         android:layout_alignParentBottom="true"
@@ -128,10 +131,10 @@
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
             android:background="@null"
-            android:src="@drawable/ic_arrow_left"
+            android:src="@drawable/left_arrow"
             android:onClick="btnLeftClicked"
             android:layout_weight="1"
-            android:tint="@color/colorPrimary"/>
+            android:tint="#DEF694"/>
 
         <ImageButton
             android:layout_width="0dp"
@@ -139,9 +142,9 @@
             android:onClick="btnRightClicked"
             android:scaleType="fitCenter"
             android:background="@null"
-            android:src="@drawable/ic_arrow_right"
+            android:src="@drawable/right_arrow"
             android:textSize="50dp"
-            android:tint="@color/colorPrimary"
+            android:tint="#DEF694"
             android:layout_weight="1"
             />
 

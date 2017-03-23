@@ -34,7 +34,6 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     private ImageView imgItem;
     private ImageView imgNextItem;
     private TextView lblScoreRight;
-    private TextView lblScoreLeft;
     private RelativeLayout lytTargetsContainer;
     private LinearLayout lytTop;
     private LinearLayout lytWall;
@@ -53,7 +52,6 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         // bind views
         imgItem = (ImageView) findViewById(R.id.img_item);
         imgNextItem = (ImageView) findViewById(R.id.img_next_item);
-        lblScoreLeft = (TextView)findViewById(R.id.lbl_score_left);
         lblScoreRight = (TextView)findViewById(R.id.lbl_score_right);
         lytTargetsContainer = (RelativeLayout) findViewById(R.id.lyt_targets_container);
         lytWall = (LinearLayout) findViewById(R.id.lyt_wall);
@@ -141,7 +139,6 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
 
     @Override
     public void resetScreen(int finalPosition, int animationDuration) {
-        lblScoreLeft.setText("0");
         lblScoreRight.setText("0");
         lytWall.getLayoutParams().height = 5;
         lytWall.requestLayout();
@@ -194,11 +191,6 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setDuration(animationDuration);
         valueAnimator.start();
-    }
-
-    @Override
-    public void updateFailsLabel(String score) {
-        lblScoreLeft.setText(score);
     }
 
     @Override
