@@ -74,25 +74,25 @@ public class PlayPresenter implements PlayContract.Presenter{
                 time = (int)millisUntilFinished/1000;
 
                 switch (time){
-                    case 64:
+                    case 70:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_2;
                         break;
-                    case 56:
+                    case 60:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_3;
                         break;
-                    case 48:
+                    case 50:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_4;
                         break;
                     case 40:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_5;
                         break;
-                    case 32:
+                    case 30:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_6;
                         break;
-                    case 24:
+                    case 20:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_7;
                         break;
-                    case 16:
+                    case 10:
                         mCurrentLevel = ValueAnimatorLevel.LEVEL_8;
                         break;
                 }
@@ -128,7 +128,7 @@ public class PlayPresenter implements PlayContract.Presenter{
         mTimer.start();
 
         mView.playSound(SoundId.CONVEYOR);
-        // start conveyor
+        // start conveyor_anim
         mView.resetScreen(screenHeight, mCurrentLevel.getUpToDownTime());
     }
 

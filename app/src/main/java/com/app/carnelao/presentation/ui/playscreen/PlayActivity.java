@@ -1,6 +1,7 @@
 package com.app.carnelao.presentation.ui.playscreen;
 
 import android.animation.ValueAnimator;
+import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import com.app.carnelao.R;
 import com.app.carnelao.presentation.ui.gameover.GameOverActivity;
 import com.app.carnelao.util.Constants;
-
 import static com.app.carnelao.util.Constants.SCORE_BUNDLE_KEY;
 
 public class PlayActivity extends AppCompatActivity implements PlayContract.View{
@@ -43,22 +43,24 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     private float x1 = 0, x2 = 0;
     private View decorView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_screen);
 
+
+
         // bind views
         imgItem = (ImageView) findViewById(R.id.img_item);
-        imgNextItem = (ImageView) findViewById(R.id.img_next_item);
         lblScoreRight = (TextView)findViewById(R.id.lbl_score_right);
         lytTargetsContainer = (RelativeLayout) findViewById(R.id.lyt_targets_container);
         lytWall = (LinearLayout) findViewById(R.id.lyt_wall);
         lytButtons = (LinearLayout) findViewById(R.id.lyt_buttons);
         loadTruck = (ImageView)findViewById(R.id.img_load_truck);
         trashTruck = (ImageView)findViewById(R.id.img_trash_truck);
+        imgNextItem = (ImageView)findViewById(R.id.img_next_item);
         //lytTop = (LinearLayout) findViewById(R.id.lyt_top);
+
 
 
         // set up View layers order
@@ -70,15 +72,15 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         lytButtons.bringToFront();
         //lytTop.bringToFront();
 
-        imgNextItem.setBackgroundResource(R.drawable.conveyor);
+        imgNextItem.setBackgroundResource(R.drawable.conveyor_anim);
         AnimationDrawable anim = (AnimationDrawable) imgNextItem.getBackground();
         anim.start();
 
         // SET UP MEDIA PLAYE
 
-        // conveyor
+        // conveyor_anim
         mMainMediaPlayer = MediaPlayer.create(this,Constants.SoundId.CONVEYOR.getSoundId());
-        mMainMediaPlayer.setVolume(0.05f,0.05f);
+        mMainMediaPlayer.setVolume(0.3f,0.3f);
         mMainMediaPlayer.setLooping(true);
         // swipe left and right / gate / fail / game over
         mSwipeLeftMediaPlayer = MediaPlayer.create(this,Constants.SoundId.SWIPE_LEFT.getSoundId());
@@ -86,6 +88,10 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         mGateClosingMediaPlayer = MediaPlayer.create(this,Constants.SoundId.GATE.getSoundId());
         mFailMediaPlayer = MediaPlayer.create(this,Constants.SoundId.FAIL.getSoundId());
         mGameOverMediaPlayer = MediaPlayer.create(this,Constants.SoundId.GAME_OVER.getSoundId());
+        mMainMediaPlayer.start();
+
+        // enable swipe on the wall
+//        enableSwipeWall();
 
         // set up presenter
         presenter = new PlayPresenter();
@@ -93,8 +99,19 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         presenter.setContext(getApplicationContext());
         presenter.startGame();
 
+
         // used to hide nav bar and status bar
-        decorView = getWindow().getDecorView();
+//        decorView = getWindow().getDecorView();
+    }
+
+    private void enableSwipeWall() {
+        lytWall.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                didSwipe(event);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -113,6 +130,9 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
             valueAnimator.cancel();
             valueAnimator.start();
 
+        } else {
+            valueAnimator.cancel();
+            valueAnimator.start();
         }
 
         if(mMainMediaPlayer != null)
@@ -123,6 +143,18 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+
+        if(presenter.isGameOver()) {
+            presenter.startGame();
+            valueAnimator.cancel();
+            valueAnimator.start();
+
+        } else {
+            valueAnimator.cancel();
+            valueAnimator.start();
+        }
+
     }
 
     // UI methods
@@ -212,7 +244,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
 
     @Override
     public void setImageItem(int imgResourceId) {
-        imgItem.setImageResource(imgResourceId);
+            imgItem.setImageResource(imgResourceId);
     }
 
     @Override
@@ -287,6 +319,11 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+        didSwipe(event);
+        return super.onTouchEvent(event);
+    }
+
+    private void didSwipe(MotionEvent event) {
         switch(event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -304,20 +341,20 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
                     presenter.moveLeft();
                 break;
         }
-        return super.onTouchEvent(event);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
-    }
+
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (hasFocus) {
+//            decorView.setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+//    }
 
 }

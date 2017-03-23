@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.app.carnelao.model.Player;
 import com.app.carnelao.util.Constants;
 
 /**
@@ -21,5 +22,15 @@ public class Util {
     public static String getSharedPreferences(String nameSharedPrefKey,Context context) {
         SharedPreferences sp = ((Activity)context).getPreferences(Context.MODE_PRIVATE);
         return sp.getString(Constants.NAME_SHARED_PREF_KEY,null);
+    }
+
+    public static Player getPlayer() {
+
+        Player player = null;
+
+        //TODO:LOAD PLAYER FROM SHARED PREF
+        // load player
+
+        return player;
     }
 }

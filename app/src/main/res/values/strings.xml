@@ -5,4 +5,6 @@
     <string name="jogar">Jogar</string>
     <string name="Jogar">Jogar</string>
     <string name="fill_your_name">Nome do Jogador</string>
+    <string name="keep_playing">Continuar</string>
+    <string name="play">Jogar</string>
 </resources>

@@ -10,18 +10,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.app.carnelao.R;
 import com.app.carnelao.presentation.ui.Util.Util;
 import com.app.carnelao.presentation.ui.playscreen.PlayActivity;
 import com.app.carnelao.util.Constants;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
     private Button mPlayButton;
     private View decorView;
     private String mName;
     private Intent intent;
+    private TextView mScoreLabel;
+    private LoginContract.Presenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,57 +33,58 @@ public class LoginActivity extends AppCompatActivity {
 
         decorView = getWindow().getDecorView();
         mPlayButton = (Button)findViewById(R.id.btn_play);
+        mScoreLabel = (TextView) findViewById(R.id.lbl_score);
+
+
 
         getSupportActionBar().hide();
-     //   loadUserName();
+
+        mPresenter = new LoginPresenter(this);
+        mPresenter.attach(this);
+
+        mPresenter.loadUser();
+
     }
-
-    private void loadUserName() {
-
-        mName = Util.getSharedPreferences(Constants.NAME_SHARED_PREF_KEY, this);
-        if(mName != null){
-            mPlayButton.setText("Continuar como "+mName);
-        }
-    }
-
 
     public void btnPlayClicked(View button){
-
-        if(mName == null){
-            showDialog();
-        } else {
-            startActivity(intent);
-        }
+        openPlayScreen();
     }
 
-    private void showDialog() {
+    private void openPlayScreen() {
 
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle("Digite seu Nome:");
-        final EditText input = new EditText(this);
-        b.setView(input);
-        b.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                if(mName == null) mName = "Player";
-//                Util.saveSharedPreference(mName,getApplicationContext());
-                intent = new Intent(LoginActivity.this, PlayActivity.class);
-                intent.putExtra(Constants.NAME_BUNDLE_KEY, mName);
-                startActivity(intent);
-            }
-        });
-        b.setNegativeButton("Skip", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mName = "Player";
-                intent = new Intent(LoginActivity.this, PlayActivity.class);
-                intent.putExtra(Constants.NAME_BUNDLE_KEY, mName);
-                startActivity(intent);
-            }
-        });
-        b.show();
+        //TODO: CHECK IF THE USER CHANGED THE NAME
+        Intent intent = new Intent(LoginActivity.this, PlayActivity.class);
+        startActivity(intent);
     }
+
+//    private void showDialog() {
+//
+//        AlertDialog.Builder b = new AlertDialog.Builder(this);
+//        b.setTitle("Digite seu Nome:");
+//        final EditText input = new EditText(this);
+//        b.setView(input);
+//        b.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                if(mName == null) mName = "Player";
+////                Util.saveSharedPreference(mName,getApplicationContext());
+//                intent = new Intent(LoginActivity.this, PlayActivity.class);
+//                intent.putExtra(Constants.NAME_BUNDLE_KEY, mName);
+//                startActivity(intent);
+//            }
+//        });
+//        b.setNegativeButton("Skip", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                mName = "Player";
+//                intent = new Intent(LoginActivity.this, PlayActivity.class);
+//                intent.putExtra(Constants.NAME_BUNDLE_KEY, mName);
+//                startActivity(intent);
+//            }
+//        });
+//        b.show();
+//    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -93,4 +98,15 @@ public class LoginActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
+
+    @Override
+    public void setButtonText(String button) {
+        mPlayButton.setText(button);
+    }
+
+    @Override
+    public void setScoreText(String score) {
+        mScoreLabel.setText(score);
+    }
+
 }
