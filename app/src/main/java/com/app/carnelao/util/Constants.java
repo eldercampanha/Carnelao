@@ -11,7 +11,9 @@ import java.util.Random;
 
 public class Constants {
 
+    public static String NAME_SHARED_PREF_KEY = "NAME_SHARED_PREF_KEY";
     public static String SCORE_BUNDLE_KEY = "SCORE_BUNDLE_KEY";
+    public static String NAME_BUNDLE_KEY = "NAME_BUNDLE_KEY";
 
     private static Random rand;
     public static enum ItemType{
@@ -20,12 +22,34 @@ public class Constants {
         OTHER
     }
 
+    public static enum SoundId {
+        CONVEYOR(R.raw.esteira),
+        SWIPE_LEFT(R.raw.swipe_left),
+        SWIPE_RIGHT(R.raw.swipe_right),
+        FAIL(R.raw.error),
+        GATE(R.raw.som_fechando_portao),
+        GAME_OVER(R.raw.som_fechando_portao);
+
+        private final int soundId;
+
+        SoundId(int soundId) {
+            this.soundId = soundId;
+        }
+
+        public int getSoundId() {
+            return soundId;
+        }
+    }
+
     public static enum ValueAnimatorLevel {
         LEVEL_1(2300, 400),
-        LEVEL_2(2000, 200),
-        LEVEL_3(1600, 300),
-        LEVEL_4(1300, 200),
-        LEVEL_5(1100, 200);
+        LEVEL_2(2100, 200),
+        LEVEL_3(1900, 300),
+        LEVEL_4(1700, 400),
+        LEVEL_5(1500, 200),
+        LEVEL_6(1300, 300),
+        LEVEL_7(1100, 200),
+        LEVEL_8(1000, 200);
 
         private final int upToDownTime;
         private final int sideWaysTime;

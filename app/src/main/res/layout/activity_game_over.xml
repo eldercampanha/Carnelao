@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/img_carmelao"
+            android:id="@+id/img_carnelao"
             android:layout_alignParentTop="true"
             android:scaleType="fitStart"
             android:onClick="btnPlayAgainClicked"

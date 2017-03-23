@@ -3,6 +3,7 @@ package com.app.carnelao.presentation.ui.playscreen;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -15,15 +16,24 @@ import android.widget.TextView;
 
 import com.app.carnelao.R;
 import com.app.carnelao.presentation.ui.gameover.GameOverActivity;
+import com.app.carnelao.util.Constants;
 
 import static com.app.carnelao.util.Constants.SCORE_BUNDLE_KEY;
 
 public class PlayActivity extends AppCompatActivity implements PlayContract.View{
 
+    private MediaPlayer mMainMediaPlayer,
+            mSwipeLeftMediaPlayer,
+            mSwipeRightMediaPlayer,
+            mFailMediaPlayer,
+            mGameOverMediaPlayer,
+            mGateClosingMediaPlayer;
+
+    private ImageView loadTruck;
+    private ImageView trashTruck;
     private ImageView imgItem;
     private ImageView imgNextItem;
     private TextView lblScoreRight;
-    private TextView lblScoreLeft;
     private RelativeLayout lytTargetsContainer;
     private LinearLayout lytTop;
     private LinearLayout lytWall;
@@ -31,6 +41,8 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     private ValueAnimator valueAnimator;
     private PlayContract.Presenter presenter;
     private float x1 = 0, x2 = 0;
+    private View decorView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +52,40 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         // bind views
         imgItem = (ImageView) findViewById(R.id.img_item);
         imgNextItem = (ImageView) findViewById(R.id.img_next_item);
-        lblScoreLeft = (TextView)findViewById(R.id.lbl_score_left);
         lblScoreRight = (TextView)findViewById(R.id.lbl_score_right);
         lytTargetsContainer = (RelativeLayout) findViewById(R.id.lyt_targets_container);
         lytWall = (LinearLayout) findViewById(R.id.lyt_wall);
         lytButtons = (LinearLayout) findViewById(R.id.lyt_buttons);
+        loadTruck = (ImageView)findViewById(R.id.img_load_truck);
+        trashTruck = (ImageView)findViewById(R.id.img_trash_truck);
         //lytTop = (LinearLayout) findViewById(R.id.lyt_top);
+
+
+        // set up View layers order
+        imgItem.bringToFront();
+        lytTargetsContainer.bringToFront();
+        loadTruck.bringToFront();
+        trashTruck.bringToFront();
+        lytWall.bringToFront();
+        lytButtons.bringToFront();
+        //lytTop.bringToFront();
+
+        imgNextItem.setBackgroundResource(R.drawable.conveyor);
+        AnimationDrawable anim = (AnimationDrawable) imgNextItem.getBackground();
+        anim.start();
+
+        // SET UP MEDIA PLAYE
+
+        // conveyor
+        mMainMediaPlayer = MediaPlayer.create(this,Constants.SoundId.CONVEYOR.getSoundId());
+        mMainMediaPlayer.setVolume(0.05f,0.05f);
+        mMainMediaPlayer.setLooping(true);
+        // swipe left and right / gate / fail / game over
+        mSwipeLeftMediaPlayer = MediaPlayer.create(this,Constants.SoundId.SWIPE_LEFT.getSoundId());
+        mSwipeRightMediaPlayer = MediaPlayer.create(this,Constants.SoundId.SWIPE_RIGHT.getSoundId());
+        mGateClosingMediaPlayer = MediaPlayer.create(this,Constants.SoundId.GATE.getSoundId());
+        mFailMediaPlayer = MediaPlayer.create(this,Constants.SoundId.FAIL.getSoundId());
+        mGameOverMediaPlayer = MediaPlayer.create(this,Constants.SoundId.GAME_OVER.getSoundId());
 
         // set up presenter
         presenter = new PlayPresenter();
@@ -53,23 +93,36 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         presenter.setContext(getApplicationContext());
         presenter.startGame();
 
-        // set up View layers order
-        imgItem.bringToFront();
-        lytWall.bringToFront();
-        lytButtons.bringToFront();
-//        lytTop.bringToFront();
+        // used to hide nav bar and status bar
+        decorView = getWindow().getDecorView();
+    }
 
-        imgNextItem.setBackgroundResource(R.drawable.conveyor);
-        AnimationDrawable anim = (AnimationDrawable) imgNextItem.getBackground();
-        anim.start();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mMainMediaPlayer != null)
+            mMainMediaPlayer.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.startGame();
-        valueAnimator.cancel();
-        valueAnimator.start();
+
+        if(presenter.isGameOver()) {
+            presenter.startGame();
+            valueAnimator.cancel();
+            valueAnimator.start();
+
+        }
+
+        if(mMainMediaPlayer != null)
+            mMainMediaPlayer.start();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     // UI methods
@@ -86,7 +139,6 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
 
     @Override
     public void resetScreen(int finalPosition, int animationDuration) {
-        lblScoreLeft.setText("0");
         lblScoreRight.setText("0");
         lytWall.getLayoutParams().height = 5;
         lytWall.requestLayout();
@@ -142,11 +194,6 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     }
 
     @Override
-    public void updateFailsLabel(String score) {
-        lblScoreLeft.setText(score);
-    }
-
-    @Override
     public void updateScoreLabel(String score) {
         lblScoreRight.setText(score);
     }
@@ -172,6 +219,28 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     public void setWallAlpha(double newAlpha) {
        //TODO: REMOVE IF NOT USED
       //  lytWall.getBackground().setAlpha( (int)newAlpha*100);
+    }
+
+    @Override
+    public void playSound(Constants.SoundId type) {
+
+        switch (type){
+            case SWIPE_LEFT:
+                mSwipeLeftMediaPlayer.start();
+                break;
+            case SWIPE_RIGHT:
+                mSwipeRightMediaPlayer.start();
+                break;
+            case FAIL:
+                mFailMediaPlayer.start();
+                break;
+            case GATE:
+//                mGateClosingMediaPlayer.start();
+                break;
+            case GAME_OVER:
+                mGameOverMediaPlayer.start();
+                break;
+        }
     }
 
     @Override
@@ -226,6 +295,9 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
             case MotionEvent.ACTION_UP:
                 x2 = event.getX();
 
+                if(x2 == x1)
+                    break;
+
                 if(x2 > x1)
                     presenter.moveRight();
                 else
@@ -233,6 +305,19 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
 }
