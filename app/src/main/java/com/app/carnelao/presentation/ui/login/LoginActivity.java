@@ -1,52 +1,50 @@
 package com.app.carnelao.presentation.ui.login;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.app.carnelao.R;
-import com.app.carnelao.presentation.ui.Util.Util;
 import com.app.carnelao.presentation.ui.playscreen.PlayActivity;
 import com.app.carnelao.util.Constants;
+import com.app.carnelao.presentation.ui.helper.TextUtils;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
     private Button mPlayButton;
     private View decorView;
-    private String mName;
+    private TextView txtName;
     private Intent intent;
     private TextView mScoreLabel;
+    private TextView mPlayerName;
     private LoginContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        getSupportActionBar().hide();
         decorView = getWindow().getDecorView();
+
         mPlayButton = (Button)findViewById(R.id.btn_play);
         mScoreLabel = (TextView) findViewById(R.id.lbl_score);
+        txtName = (TextView) findViewById(R.id.txt_name);
 
+        // FONT
+        TextUtils.setFont(mPlayButton, Constants.Fonts.BUTTON_FONT, this);
 
-
-        getSupportActionBar().hide();
-
-        mPresenter = new LoginPresenter(this);
+        // PRESENTER
+        mPresenter = new LoginPresenter(getApplication());
         mPresenter.attach(this);
-
         mPresenter.loadUser();
 
     }
 
     public void btnPlayClicked(View button){
+        mPresenter.saveUser(txtName.getText().toString());
         openPlayScreen();
     }
 
@@ -68,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 //            public void onClick(DialogInterface dialog, int which) {
 //
 //                if(mName == null) mName = "Player";
-////                Util.saveSharedPreference(mName,getApplicationContext());
+////                SharedPreferencesUtil.save(mName,getApplicationContext());
 //                intent = new Intent(LoginActivity.this, PlayActivity.class);
 //                intent.putExtra(Constants.NAME_BUNDLE_KEY, mName);
 //                startActivity(intent);
@@ -100,8 +98,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void setButtonText(String button) {
-        mPlayButton.setText(button);
+    public void setPlayerNameText(String name) {
+        txtName.setText(name);
     }
 
     @Override

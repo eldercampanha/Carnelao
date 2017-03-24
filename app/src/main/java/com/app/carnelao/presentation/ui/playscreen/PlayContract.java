@@ -21,6 +21,7 @@ public interface PlayContract {
         void setWallAlpha(double newAlpha);
         void playSound(Constants.SoundId id);
         void finishGame();
+        void updateMuteButton(int imageId);
     }
 
     interface Presenter{
@@ -35,6 +36,8 @@ public interface PlayContract {
         void touchTheBottom();
         int getAnimationDuration();
         boolean isGameOver();
+        void finishGame();
+        void setMuteState(boolean isMute);
     }
 
 }

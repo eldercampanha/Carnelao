@@ -4,22 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
+    android:background="#00FFCC"
     android:layout_margin="0dp"
     tools:context="com.app.carnelao.presentation.ui.playscreen.PlayActivity"
     android:orientation="vertical">
 
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="30dp"-->
-        <!--android:id="@+id/lbl_score_left"-->
-        <!--android:text="0"/>-->
-
     <TextView
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lbl_score_right"
@@ -27,6 +20,39 @@
         android:elegantTextHeight="true"
         android:textColor="@color/colorPrimary"
         android:text="0"/>
+
+    <ImageButton
+        android:id="@+id/btn_mute"
+        android:tint="@color/btn_background"
+        android:scaleType="fitCenter"
+        android:onClick="btnMuteClicked"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_speaker"
+        android:background="@null"/>
+
+    <ImageButton
+        android:id="@+id/btn_pause"
+        android:onClick="btnPauseClicked"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitCenter"
+        android:minWidth="40dp"
+        android:tint="@color/btn_side"
+        android:minHeight="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:src="@drawable/ic_pause"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/btn_mute"
+        />
 
     <ImageView
         android:layout_centerHorizontal="true"
@@ -86,6 +112,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true">
 
+
                 <ImageView
                     android:id="@+id/img_load_truck"
                     android:scaleType="fitXY"
@@ -95,7 +122,9 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/lyt_wall"
@@ -134,7 +163,7 @@
             android:src="@drawable/left_arrow"
             android:onClick="btnLeftClicked"
             android:layout_weight="1"
-            android:tint="#DEF694"/>
+            android:tint="@color/btn_background"/>
 
         <ImageButton
             android:layout_width="0dp"
@@ -144,7 +173,7 @@
             android:background="@null"
             android:src="@drawable/right_arrow"
             android:textSize="50dp"
-            android:tint="#DEF694"
+            android:tint="@color/btn_background"
             android:layout_weight="1"
             />
 

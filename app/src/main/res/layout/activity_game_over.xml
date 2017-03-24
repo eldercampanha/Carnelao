@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#000"
     android:layout_height="match_parent"
-    android:background="@drawable/game_over"
     tools:context="com.app.carnelao.presentation.ui.gameover.GameOverActivity">
 
 
@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
+        <Button
+            android:text="@string/btn_back"
             android:id="@+id/img_carnelao"
             android:layout_alignParentTop="true"
             android:scaleType="fitStart"
@@ -21,7 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:layout_margin="20dp"
-            android:src="@drawable/play_again"/>
+            />
 
         <TextView
             android:layout_width="match_parent"

@@ -9,7 +9,7 @@ public interface LoginContract {
 
     interface View{
 
-        void setButtonText(String button);
+        void setPlayerNameText(String button);
         void setScoreText(String score);
     }
 
@@ -18,5 +18,6 @@ public interface LoginContract {
         boolean checkUserExists();
         void attach(View view);
         void loadUser();
+        void saveUser(String text);
     }
 }

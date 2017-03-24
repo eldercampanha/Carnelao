@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D3D3D3"
+    tools:context="com.app.carnelao.presentation.ui.pause.PauseActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
+
+        <TextView
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="50dp"
+            android:textColor="#FFF"
+            android:textAlignment="center"
+            android:text="@string/pause"
+            android:id="@+id/lbl_pause"
+            />
+
+        <Button
+            android:background="@color/btn_background"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/btn_continue"
+            android:onClick="btnContinueClicked"
+            android:text="@string/resume"
+            android:layout_below="@+id/lbl_pause"/>
+
+        <Button
+            android:background="@color/btn_background"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/btn_back"
+            android:onClick="btnBackClicked"
+            android:text="@string/btn_back"
+            android:layout_below="@+id/btn_continue"/>
+
+        <Button
+            android:background="@color/btn_exit_background"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/btn_exit"
+            android:onClick="btnExitClicked"
+            android:text="@string/btn_exit"
+            android:layout_below="@+id/btn_back"
+/>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

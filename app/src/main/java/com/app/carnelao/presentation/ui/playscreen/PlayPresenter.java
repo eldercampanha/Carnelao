@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 
 import com.app.carnelao.R;
 import com.app.carnelao.model.Item;
+import com.app.carnelao.util.SharedPreferencesUtil;
 import com.app.carnelao.util.Constants;
 import java.util.Random;
 
@@ -25,7 +26,6 @@ public class PlayPresenter implements PlayContract.Presenter{
 
     private Context mContext;
     private int countRight = 0;
-    private int countLeft = 0;
     private boolean touchTheBotton = false;
     private boolean gaveOver = false;
     private int wallHeight;
@@ -51,14 +51,13 @@ public class PlayPresenter implements PlayContract.Presenter{
             screenWidth = mContext.getResources().getDisplayMetrics().widthPixels;
 
             // used to the animation Top-to-Bottom and Verify the "height of the Wall"
-            screenHeight = mContext.getResources().getDisplayMetrics().heightPixels - IMAGE_HEIGHT - NAV_BAR_HEIGHT;
+            screenHeight = mContext.getResources().getDisplayMetrics().heightPixels;
 
             // used to calculate how much the wall's height should be increased (15%)
             wallIncreaseValue = (int) (screenHeight * 0.03);
 
             // used to change the levels of the game
             setCountdownTime();
-
         }
     }
 
@@ -123,7 +122,6 @@ public class PlayPresenter implements PlayContract.Presenter{
         // reset game variables
         wallHeight = 5;
         countRight = 0;
-        countLeft = 0;
         mCurrentLevel = ValueAnimatorLevel.LEVEL_1;
         mTimer.start();
 
@@ -146,7 +144,6 @@ public class PlayPresenter implements PlayContract.Presenter{
 
         // DID MISS
         if(mItem.getType() == ItemType.OTHER){
-            countLeft++;
 
             // wall should move up
             this.touchTheBottom();
@@ -168,7 +165,6 @@ public class PlayPresenter implements PlayContract.Presenter{
         // DID MISS
         if(mItem.getType() == ItemType.CARNE
                 || mItem.getType() == ItemType.PAPELAO){
-            countLeft++;
 
             // wall should move up
             this.touchTheBottom();
@@ -210,15 +206,6 @@ public class PlayPresenter implements PlayContract.Presenter{
 
         // variable used for verify if the wall height has crossed the limit
         wallHeight +=wallIncreaseValue;
-
-        if(wallHeight >= (int)screenHeight*0.2)
-            mView.setWallAlpha(0.7);
-
-        if(wallHeight >= (int)screenHeight*0.4)
-            mView.setWallAlpha(0.8);
-
-        if(wallHeight >= (int)screenHeight*0.6)
-            mView.setWallAlpha(0.9);
 
         // end game if the Wall Height is bigger then 80% of the screen
         if(wallHeight >= (int)screenHeight*0.8) {
@@ -287,5 +274,25 @@ public class PlayPresenter implements PlayContract.Presenter{
         return gaveOver;
     }
 
+    @Override
+    public void finishGame() {
 
+        // reset game variables
+        wallHeight = 5;
+        countRight = 0;
+        gaveOver = true;
+        mCurrentLevel = ValueAnimatorLevel.LEVEL_1;
+    }
+
+    @Override
+    public void setMuteState(boolean isMute) {
+
+        SharedPreferencesUtil.saveBoolean(SHARED_PREF_KEY_MUTE, isMute, mContext);
+
+        if (isMute) {
+            mView.updateMuteButton(R.drawable.ic_speaker_mute);
+        } else {
+            mView.updateMuteButton(R.drawable.ic_speaker);
+        }
+    }
 }

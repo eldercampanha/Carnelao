@@ -11,9 +11,13 @@ import java.util.Random;
 
 public class Constants {
 
-    public static String NAME_SHARED_PREF_KEY = "NAME_SHARED_PREF_KEY";
-    public static String SCORE_BUNDLE_KEY = "SCORE_BUNDLE_KEY";
-    public static String NAME_BUNDLE_KEY = "NAME_BUNDLE_KEY";
+    // SHARED PREFERENCES
+    public static final String SHARED_PREF_KEY_MUTE = "SHARED_PREF_KEY_MUTE";
+    public static final String SHARED_PREF_KEY_LAST_PLAYER_NAME ="SHARED_PREF_KEY_LAST_PLAYER_NAME";
+    public static final String SHARED_PREF_KEY_SCORE = "SHARED_PREF_KEY_SCORE";
+    public static final String SHARED_PREF_KEY_NAME = "SHARED_PREF_KEY_NAME";
+    public static final String SCORE_BUNDLE_KEY = "SCORE_BUNDLE_KEY";
+    public static final String SHARE_PREF_KEY = "SHARE_PREF_KEY_azd_095";
 
     private static Random rand;
     public static enum ItemType{
@@ -85,6 +89,24 @@ public class Constants {
         index = (int)rand.nextInt(imagesIdVector.length);
 
         return imagesIdVector[index];
+    }
+
+    public static enum Fonts{
+        BUTTON_FONT("font_zig.ttf", 30),
+        TITLE_FONT("font_zig.ttf", 50);
+
+        private final String path;
+        private final int size;
+
+        Fonts(String path, int size) {
+            this.size = size;
+            this.path = path;
+        }
+
+        public String getPath() {
+            return path;
+        }
+        public int getSize(){ return size; };
     }
 
 }

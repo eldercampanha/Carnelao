@@ -7,4 +7,9 @@
     <string name="fill_your_name">Nome do Jogador</string>
     <string name="keep_playing">Continuar</string>
     <string name="play">Jogar</string>
+    <string name="pause">Pausado</string>
+    <string name="resume">Continuar</string>
+    <string name="btn_back">Voltar</string>
+    <string name="btn_exit">Sair</string>
+    <string name="highest_score">Maior Pontuação:</string>
 </resources>

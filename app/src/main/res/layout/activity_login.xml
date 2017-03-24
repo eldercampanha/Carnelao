@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DEB694"
+    android:background="@color/app_background"
     tools:context="com.app.carnelao.presentation.ui.login.LoginActivity">
 
     <RelativeLayout
@@ -20,7 +20,7 @@
             android:layout_above="@+id/txt_name"/>
 
 
-        <TextView
+        <EditText
             android:id="@+id/txt_name"
             android:background="#FFF"
             android:padding="4dp"
@@ -43,7 +43,7 @@
             android:text="@string/Jogar"
             android:textColor="#FFF"
             android:padding="5dp"
-            android:background="#AA4"
+            android:background="@color/btn_background"
             android:textSize="30dp"
             android:layout_marginBottom="100dp"
             android:layout_centerHorizontal="true"
@@ -54,8 +54,9 @@
             android:id="@+id/lbl_score"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Record: *WIP*"
+            android:text="Record: - "
             android:textSize="20dp"
+            android:textStyle="bold"
             android:layout_marginLeft="30dp"
             android:layout_below="@id/btn_play"/>
 

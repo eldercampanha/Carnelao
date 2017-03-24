@@ -1,10 +1,12 @@
 package com.app.carnelao.presentation.ui.login;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.app.carnelao.R;
 import com.app.carnelao.model.Player;
-import com.app.carnelao.presentation.ui.Util.Util;
+import com.app.carnelao.util.Constants;
+import com.app.carnelao.util.SharedPreferencesUtil;
 
 /**
  * Created by ElderCMA on 23/03/17.
@@ -35,18 +37,25 @@ public class LoginPresenter implements LoginContract.Presenter {
     public void loadUser() {
 
         // load player from Shared Preferences
-        mPlayer = Util.getPlayer();
+        String lastPlayerName = SharedPreferencesUtil.retrieveString(Constants.SHARED_PREF_KEY_LAST_PLAYER_NAME,mContext);
+        String recordPlayerName = SharedPreferencesUtil.retrieveString(Constants.SHARED_PREF_KEY_NAME,mContext);
+        String score = SharedPreferencesUtil.retrieveString(Constants.SHARED_PREF_KEY_SCORE, mContext);
 
-        if(mPlayer != null){
+        if(lastPlayerName != null){
+            mView.setPlayerNameText(lastPlayerName);
 
-            mView.setButtonText(mContext.getString(R.string.keep_playing));
-            mView.setScoreText("RECORD: "+ mPlayer.getScore());
-
-        } else {
-
-            mView.setButtonText(mContext.getString(R.string.play));
-            mView.setScoreText("");
+            if(score != null && recordPlayerName != null) {
+                mView.setScoreText(mContext.getString(R.string.highest_score)+ score+'\n'+lastPlayerName);
+            }
         }
+    }
 
+    @Override
+    public void saveUser(String playerName) {
+
+        if(playerName == null || playerName.length() == 0)
+            playerName = "Player";
+
+        SharedPreferencesUtil.saveString(Constants.SHARED_PREF_KEY_LAST_PLAYER_NAME, playerName,mContext);
     }
 }
