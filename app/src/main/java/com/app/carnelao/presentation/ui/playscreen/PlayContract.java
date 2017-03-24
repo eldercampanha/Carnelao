@@ -38,6 +38,8 @@ public interface PlayContract {
         boolean isGameOver();
         void finishGame();
         void setMuteState(boolean isMute);
+        void pause();
+        void resume();
     }
 
 }

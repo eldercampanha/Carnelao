@@ -139,8 +139,10 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     @Override
     protected void onPause() {
         super.onPause();
-        if(mMainMediaPlayer != null)
+        if(mMainMediaPlayer != null) {
             mMainMediaPlayer.pause();
+        }
+        presenter.pause();
     }
 
     @Override
@@ -152,13 +154,15 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
             valueAnimator.cancel();
             valueAnimator.start();
 
+            if(mMainMediaPlayer != null && !isMute)
+                mMainMediaPlayer.start();
+
         } else {
             valueAnimator.cancel();
             valueAnimator.start();
+            presenter.resume();
         }
 
-        if(mMainMediaPlayer != null && !isMute)
-            mMainMediaPlayer.start();
 
     }
 
@@ -168,7 +172,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
 
 
         if(presenter != null && presenter.isGameOver()) {
-            presenter.startGame();
+//            presenter.startGame();
             valueAnimator.cancel();
             valueAnimator.start();
 
@@ -206,6 +210,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
 
         valueAnimator.cancel();
         mMainMediaPlayer.pause();
+        presenter.pause();
 
         Intent intent = new Intent(PlayActivity.this, PauseActivity.class);
         startActivity(intent);

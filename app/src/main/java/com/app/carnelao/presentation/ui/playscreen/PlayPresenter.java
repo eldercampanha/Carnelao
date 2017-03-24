@@ -2,6 +2,7 @@ package com.app.carnelao.presentation.ui.playscreen;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.util.Log;
 
 import com.app.carnelao.R;
 import com.app.carnelao.model.Item;
@@ -18,6 +19,7 @@ import static com.app.carnelao.util.Constants.*;
 public class PlayPresenter implements PlayContract.Presenter{
 
 
+    private static final int COUNTDOWN_INITIAL_TIME = 75000;
     private String TAG = "PLAY_PRESENTER";
     private int wallIncreaseValue;
     private final int IMAGE_WIDTH = 120;
@@ -25,10 +27,10 @@ public class PlayPresenter implements PlayContract.Presenter{
     private final int NAV_BAR_HEIGHT = 100;
 
     private Context mContext;
-    private int countRight = 0;
+    private int mCountRight = 0;
     private boolean touchTheBotton = false;
-    private boolean gaveOver = false;
-    private int wallHeight;
+    private boolean gameOver = false;
+    private int mWallHeight;
     private int screenWidth;
     private int screenHeight;
     private ValueAnimatorLevel mCurrentLevel;
@@ -37,7 +39,8 @@ public class PlayPresenter implements PlayContract.Presenter{
     private Random mRand;
     private boolean isMoving;
     private CountDownTimer mTimer;
-
+    private boolean isPaused;
+    private long mLastTimeState;
 
 
     @Override
@@ -54,55 +57,12 @@ public class PlayPresenter implements PlayContract.Presenter{
             screenHeight = mContext.getResources().getDisplayMetrics().heightPixels;
 
             // used to calculate how much the wall's height should be increased (15%)
-            wallIncreaseValue = (int) (screenHeight * 0.03);
+            wallIncreaseValue = (int) (screenHeight * 0.06);
 
-            // used to change the levels of the game
-            setCountdownTime();
+            // set up timer
+            if(mTimer == null)
+                createNewCountdownTimer(COUNTDOWN_INITIAL_TIME);
         }
-    }
-
-    private void setCountdownTime() {
-        mTimer = new CountDownTimer(64000, 1000){
-
-            int time;
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if(isGameOver())
-                    return;
-
-                time = (int)millisUntilFinished/1000;
-
-                switch (time){
-                    case 70:
-                        mCurrentLevel = ValueAnimatorLevel.LEVEL_2;
-                        break;
-                    case 60:
-                        mCurrentLevel = ValueAnimatorLevel.LEVEL_3;
-                        break;
-                    case 50:
-                        mCurrentLevel = ValueAnimatorLevel.LEVEL_4;
-                        break;
-                    case 40:
-                        mCurrentLevel = ValueAnimatorLevel.LEVEL_5;
-                        break;
-                    case 30:
-                        mCurrentLevel = ValueAnimatorLevel.LEVEL_6;
-                        break;
-                    case 20:
-                        mCurrentLevel = ValueAnimatorLevel.LEVEL_7;
-                        break;
-                    case 10:
-                        mCurrentLevel = ValueAnimatorLevel.LEVEL_8;
-                        break;
-                }
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-
-        }.start();
     }
 
     @Override
@@ -116,30 +76,35 @@ public class PlayPresenter implements PlayContract.Presenter{
     @Override
     public void startGame() {
 
+        Log.i(TAG,"start game");
+
         // used to block all methods
-        this.gaveOver = false;
+        this.gameOver = false;
 
         // reset game variables
-        wallHeight = 5;
-        countRight = 0;
+        mWallHeight = 5;
+        mCountRight = 0;
+
         mCurrentLevel = ValueAnimatorLevel.LEVEL_1;
         mTimer.start();
 
         mView.playSound(SoundId.CONVEYOR);
+
         // start conveyor_anim
         mView.resetScreen(screenHeight, mCurrentLevel.getUpToDownTime());
     }
 
     @Override
     public void hitRightSide() {
-        if(this.gaveOver) return;
+
+        if(this.gameOver) return;
 
         // DID SCORE_BUNDLE_KEY
         if(mItem.getType() == ItemType.CARNE
                 || mItem.getType() == ItemType.PAPELAO){
 
-            countRight++;
-            mView.updateScoreLabel("" + countRight);
+            mCountRight++;
+            mView.updateScoreLabel("" + mCountRight);
         }
 
         // DID MISS
@@ -153,13 +118,13 @@ public class PlayPresenter implements PlayContract.Presenter{
 
     @Override
     public void hitLeftSide() {
-        if(this.gaveOver) return;
+        if(this.gameOver) return;
 
         // DID SCORE_BUNDLE_KEY
         if(mItem.getType() == ItemType.OTHER){
-            countRight++;
+            mCountRight++;
 
-            mView.updateScoreLabel("" + countRight);
+            mView.updateScoreLabel("" + mCountRight);
         }
 
         // DID MISS
@@ -174,7 +139,7 @@ public class PlayPresenter implements PlayContract.Presenter{
 
     @Override
     public void moveRight() {
-        if(this.gaveOver) return;
+        if(this.gameOver) return;
 
         if(!isMoving) {
             mView.playSound(SoundId.SWIPE_RIGHT);
@@ -186,7 +151,7 @@ public class PlayPresenter implements PlayContract.Presenter{
 
     @Override
     public void moveLeft() {
-        if(this.gaveOver) return;
+        if(this.gameOver) return;
 
         if(!isMoving) {
             mView.playSound(SoundId.SWIPE_LEFT);
@@ -202,17 +167,19 @@ public class PlayPresenter implements PlayContract.Presenter{
     }
 
     public void hitBottom(){
-        if(this.gaveOver) return;
+        if(this.gameOver) return;
 
         // variable used for verify if the wall height has crossed the limit
-        wallHeight +=wallIncreaseValue;
+        mWallHeight +=wallIncreaseValue;
 
         // end game if the Wall Height is bigger then 80% of the screen
-        if(wallHeight >= (int)screenHeight*0.8) {
+        if(mWallHeight >= (int)screenHeight*0.8) {
             mView.playSound(SoundId.GAME_OVER);
             mView.setWallAlpha(1);
             mView.finishGame();
-            gaveOver = true;
+            gameOver = true;
+            mTimer.cancel();
+            mTimer.onFinish();
         }
 
         mView.playSound(SoundId.GATE);
@@ -226,7 +193,7 @@ public class PlayPresenter implements PlayContract.Presenter{
 
     @Override
     public void newCicleStarted() {
-        if(this.gaveOver) return;
+        if(this.gameOver || this.isPaused) return;
 
         // move the wall up if the image touch the botton of the screen
         if(touchTheBotton)
@@ -271,16 +238,16 @@ public class PlayPresenter implements PlayContract.Presenter{
 
     @Override
     public boolean isGameOver() {
-        return gaveOver;
+        return gameOver;
     }
 
     @Override
     public void finishGame() {
 
         // reset game variables
-        wallHeight = 5;
-        countRight = 0;
-        gaveOver = true;
+        mWallHeight = 5;
+        mCountRight = 0;
+        gameOver = true;
         mCurrentLevel = ValueAnimatorLevel.LEVEL_1;
     }
 
@@ -294,5 +261,82 @@ public class PlayPresenter implements PlayContract.Presenter{
         } else {
             mView.updateMuteButton(R.drawable.ic_speaker);
         }
+    }
+
+    @Override
+    public void pause() {
+        Log.i(TAG,"pause");
+        isPaused = true;
+        mTimer.cancel();
+        mTimer.onFinish();
+    }
+
+    @Override
+    public void resume() {
+        Log.i(TAG,"resume");
+
+        if(isPaused){
+            Log.i(TAG, "last state " + mLastTimeState);
+            isPaused = false;
+            createNewCountdownTimer(mLastTimeState);
+            mTimer.start();
+        }
+    }
+
+    private void createNewCountdownTimer(long lastTimeState) {
+
+        mTimer = new CountDownTimer(lastTimeState, 1000) {
+            int time;
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+
+                time = ((int) millisUntilFinished / 1000);
+                mLastTimeState = millisUntilFinished;
+
+                // used to save the time when the game is paused
+                if (!isPaused) {
+
+                    switch (time) {
+                        case 70:
+                            mCurrentLevel = ValueAnimatorLevel.LEVEL_2;
+                            Log.i(TAG, "70");
+                            break;
+                        case 60:
+                            mCurrentLevel = ValueAnimatorLevel.LEVEL_3;
+                            Log.i(TAG, "60");
+                            break;
+                        case 50:
+                            mCurrentLevel = ValueAnimatorLevel.LEVEL_4;
+                            Log.i(TAG, "50");
+                            break;
+                        case 40:
+                            mCurrentLevel = ValueAnimatorLevel.LEVEL_5;
+                            Log.i(TAG, "40");
+                            break;
+                        case 30:
+                            mCurrentLevel = ValueAnimatorLevel.LEVEL_6;
+                            Log.i(TAG, "30");
+                            break;
+                        case 20:
+                            mCurrentLevel = ValueAnimatorLevel.LEVEL_7;
+                            Log.i(TAG, "20");
+                            break;
+                        case 10:
+                            mCurrentLevel = ValueAnimatorLevel.LEVEL_8;
+                            Log.i(TAG, "10");
+                            break;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+        };
     }
 }

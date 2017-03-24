@@ -44,9 +44,9 @@
             android:layout_height="70dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:id="@+id/btn_back"
-            android:onClick="btnBackClicked"
-            android:text="@string/btn_back"
+            android:id="@+id/btn_restart"
+            android:onClick="btnRestartClicked"
+            android:text="@string/reiniciar"
             android:layout_below="@+id/btn_play_again"/>
 
         <Button
@@ -59,7 +59,7 @@
             android:id="@+id/btn_exit"
             android:onClick="btnExitClicked"
             android:text="@string/btn_exit"
-            android:layout_below="@+id/btn_back"
+            android:layout_below="@+id/btn_restart"
 />
 
     </RelativeLayout>

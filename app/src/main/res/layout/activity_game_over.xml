@@ -34,7 +34,7 @@
             android:layout_height="70dp"
             android:id="@+id/btn_play_again"
             android:onClick="btnPlayAgainClicked"
-            android:text="@string/resume"
+            android:text="@string/reiniciar"
             android:layout_below="@+id/lbl_title"/>
 
         <Button

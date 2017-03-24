@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.app.carnelao.R;
 import com.app.carnelao.presentation.ui.login.LoginActivity;
+import com.app.carnelao.presentation.ui.playscreen.PlayActivity;
 import com.app.carnelao.util.Constants;
 import com.app.carnelao.presentation.ui.helper.TextUtils;
 
@@ -26,15 +27,13 @@ public class PauseActivity extends AppCompatActivity {
 
 
         lblPause = (TextView)findViewById(R.id.lbl_pause);
-        btnBack = (Button) findViewById(R.id.btn_back);
+        btnBack = (Button) findViewById(R.id.btn_restart);
         btnContinue = (Button)findViewById(R.id.btn_play_again);
         btnExit = (Button)findViewById(R.id.btn_exit);
 
         // fonts
         setFonts();
-//        TextView myTextView=(TextView)findViewById(R.id.textBox);
-//        Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/mytruetypefont.ttf");
-//        myTextView.setTypeface(typeFace);
+
     }
 
     private void setFonts() {
@@ -44,8 +43,8 @@ public class PauseActivity extends AppCompatActivity {
         TextUtils.setFont(btnExit, Constants.Fonts.BUTTON_FONT, this);
     }
 
-    public void btnBackClicked(View button){
-        Intent intent = new Intent(PauseActivity.this, LoginActivity.class);
+    public void btnRestartClicked(View button){
+        Intent intent = new Intent(PauseActivity.this, PlayActivity.class);
         startActivity(intent);
         finish();
     }
@@ -53,7 +52,6 @@ public class PauseActivity extends AppCompatActivity {
     public void btnExitClicked(View button){
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Exit me", true);
         startActivity(intent);
         finish();
     }
@@ -62,4 +60,8 @@ public class PauseActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
