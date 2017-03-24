@@ -11,6 +11,7 @@ public interface LoginContract {
 
         void setPlayerNameText(String button);
         void setScoreText(String score);
+        void hideRecordLabel();
     }
 
     interface Presenter{

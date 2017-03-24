@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#D3D3D3"
+    android:paddingBottom="50dp"
     tools:context="com.app.carnelao.presentation.ui.pause.PauseActivity">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp">
 
         <TextView
             android:layout_marginTop="50dp"
@@ -31,7 +32,7 @@
             android:layout_height="70dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:id="@+id/btn_continue"
+            android:id="@+id/btn_play_again"
             android:onClick="btnContinueClicked"
             android:text="@string/resume"
             android:layout_below="@+id/lbl_pause"/>
@@ -46,7 +47,7 @@
             android:id="@+id/btn_back"
             android:onClick="btnBackClicked"
             android:text="@string/btn_back"
-            android:layout_below="@+id/btn_continue"/>
+            android:layout_below="@+id/btn_play_again"/>
 
         <Button
             android:background="@color/btn_exit_background"

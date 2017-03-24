@@ -4,11 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00FFCC"
     android:layout_margin="0dp"
     tools:context="com.app.carnelao.presentation.ui.playscreen.PlayActivity"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:alpha="0.8"
+        android:background="@drawable/floor2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:layout_marginLeft="20dp"
         android:layout_alignParentTop="true"
@@ -23,7 +27,7 @@
 
     <ImageButton
         android:id="@+id/btn_mute"
-        android:tint="@color/btn_background"
+        android:tint="@color/btn_side"
         android:scaleType="fitCenter"
         android:onClick="btnMuteClicked"
         android:layout_marginTop="20dp"
@@ -78,7 +82,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="100dp"
         android:layout_marginRight="100dp"
-        android:alpha="0.8"
+        android:alpha="0.95"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -163,7 +167,7 @@
             android:src="@drawable/left_arrow"
             android:onClick="btnLeftClicked"
             android:layout_weight="1"
-            android:tint="@color/btn_background"/>
+            android:tint="@color/btn_side"/>
 
         <ImageButton
             android:layout_width="0dp"
@@ -173,13 +177,13 @@
             android:background="@null"
             android:src="@drawable/right_arrow"
             android:textSize="50dp"
-            android:tint="@color/btn_background"
+            android:tint="@color/btn_side"
             android:layout_weight="1"
             />
 
 
     </LinearLayout>
 
-
+    </RelativeLayout>
 </RelativeLayout>
 

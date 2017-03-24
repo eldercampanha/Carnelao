@@ -7,15 +7,25 @@
     tools:context="com.app.carnelao.presentation.ui.login.LoginActivity">
 
     <RelativeLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <TextView
+            android:id="@+id/lbl_app_name"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Carnelão"
+            android:textAlignment="center"
+            android:textSize="30dp"/>
+
         <ImageView
-            android:layout_marginTop="50dp"
+            android:layout_below="@+id/lbl_app_name"
             android:id="@+id/img_carnelao"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_centerHorizontal="true"
             android:src="@drawable/carnelao"
             android:layout_above="@+id/txt_name"/>
 
@@ -26,6 +36,7 @@
             android:padding="4dp"
             android:textAlignment="center"
             android:textSize="30dp"
+            android:maxLines="1"
             android:textColorHint="#D3D3D3"
             android:layout_margin="30dp"
             android:layout_centerVertical="true"
@@ -34,7 +45,7 @@
             android:hint="@string/fill_your_name" />
 
         <Button
-            android:layout_below="@+id/txt_name"
+            android:layout_below="@id/txt_name"
             android:id="@+id/btn_play"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
@@ -45,20 +56,42 @@
             android:padding="5dp"
             android:background="@color/btn_background"
             android:textSize="30dp"
-            android:layout_marginBottom="100dp"
             android:layout_centerHorizontal="true"
             android:onClick="btnPlayClicked" />
 
 
         <TextView
-            android:id="@+id/lbl_score"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/btn_play"
+            android:id="@+id/lbl_score_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Record: - "
+            android:layout_height="wrap_content"
+            android:text="@string/highest_score"
             android:textSize="20dp"
+            android:layout_marginBottom="10dp"
             android:textStyle="bold"
             android:layout_marginLeft="30dp"
-            android:layout_below="@id/btn_play"/>
+            />
+
+        <TextView
+            android:layout_below="@id/lbl_score_title"
+            android:id="@+id/lbl_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/img_medal"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/img_medal" />
+
+        <ImageView
+            android:layout_marginLeft="30dp"
+            android:layout_below="@+id/lbl_score_title"
+            android:id="@+id/img_medal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ribbon" />
 
     </RelativeLayout>
 

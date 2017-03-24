@@ -93,7 +93,9 @@ public class Constants {
 
     public static enum Fonts{
         BUTTON_FONT("font_zig.ttf", 30),
-        TITLE_FONT("font_zig.ttf", 50);
+        TITLE_FONT("font_zig.ttf", 50),
+        GAME_OVER_SCORE_TITLE("font_zig.ttf",16),
+        GAME_OVER_SCORE("font_zig.ttf", 40);
 
         private final String path;
         private final int size;

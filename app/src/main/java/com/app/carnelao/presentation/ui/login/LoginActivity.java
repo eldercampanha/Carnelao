@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.carnelao.R;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private Intent intent;
     private TextView mScoreLabel;
     private TextView mPlayerName;
+    private ImageView imgMedal;
     private LoginContract.Presenter mPresenter;
 
     @Override
@@ -29,9 +31,15 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         getSupportActionBar().hide();
         decorView = getWindow().getDecorView();
 
+        // terminate application
+        if( getIntent().getBooleanExtra("Exit me", false)){
+            finish();
+        }
+
         mPlayButton = (Button)findViewById(R.id.btn_play);
         mScoreLabel = (TextView) findViewById(R.id.lbl_score);
         txtName = (TextView) findViewById(R.id.txt_name);
+        imgMedal = (ImageView)findViewById(R.id.img_medal);
 
         // FONT
         TextUtils.setFont(mPlayButton, Constants.Fonts.BUTTON_FONT, this);
@@ -39,8 +47,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         // PRESENTER
         mPresenter = new LoginPresenter(getApplication());
         mPresenter.attach(this);
-        mPresenter.loadUser();
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        mPresenter.loadUser();
+        super.onResume();
     }
 
     public void btnPlayClicked(View button){
@@ -105,6 +119,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void setScoreText(String score) {
         mScoreLabel.setText(score);
+    }
+
+    @Override
+    public void hideRecordLabel() {
+        imgMedal.setVisibility(View.INVISIBLE);
     }
 
 }

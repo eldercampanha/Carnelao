@@ -12,4 +12,6 @@
     <string name="btn_back">Voltar</string>
     <string name="btn_exit">Sair</string>
     <string name="highest_score">Maior Pontuação:</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="lbl_score_title">Pontuação</string>
 </resources>

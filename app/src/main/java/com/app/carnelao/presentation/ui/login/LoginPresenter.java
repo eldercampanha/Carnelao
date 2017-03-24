@@ -41,13 +41,15 @@ public class LoginPresenter implements LoginContract.Presenter {
         String recordPlayerName = SharedPreferencesUtil.retrieveString(Constants.SHARED_PREF_KEY_NAME,mContext);
         String score = SharedPreferencesUtil.retrieveString(Constants.SHARED_PREF_KEY_SCORE, mContext);
 
-        if(lastPlayerName != null){
+        if(lastPlayerName != null ){
             mView.setPlayerNameText(lastPlayerName);
-
-            if(score != null && recordPlayerName != null) {
-                mView.setScoreText(mContext.getString(R.string.highest_score)+ score+'\n'+lastPlayerName);
-            }
         }
+        if(score != null && recordPlayerName != null) {
+            mView.setScoreText(lastPlayerName + " - " + score) ;
+        }  else {
+            mView.hideRecordLabel();
+        }
+
     }
 
     @Override

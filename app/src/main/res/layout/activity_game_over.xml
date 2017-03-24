@@ -12,33 +12,96 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="50dp"
+            android:textColor="#FFF"
+            android:textAlignment="center"
+            android:text="@string/game_over"
+            android:id="@+id/lbl_title"
+            />
+
         <Button
-            android:text="@string/btn_back"
-            android:id="@+id/img_carnelao"
-            android:layout_alignParentTop="true"
-            android:scaleType="fitStart"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center"
+            android:background="@color/btn_background"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:id="@+id/btn_play_again"
             android:onClick="btnPlayAgainClicked"
+            android:text="@string/resume"
+            android:layout_below="@+id/lbl_title"/>
+
+        <Button
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:textAlignment="center"
+            android:background="@color/btn_exit_background"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:id="@+id/btn_exit"
+            android:onClick="btnExitClicked"
+            android:text="@string/btn_exit"
+            android:layout_below="@+id/btn_play_again"/>
+
+
+        <TextView
+            android:layout_below="@id/btn_exit"
+            android:gravity="bottom"
+            android:paddingTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:id="@+id/lbl_score_highest_title"
+            android:textSize="25dp"
+            android:layout_height="wrap_content"
+            android:text="@string/highest_score"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:textSize="50dp"
+            android:layout_below="@id/lbl_score_highest_title"
+            android:layout_width="wrap_content"
+            android:id="@+id/lbl_score_highest"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+
+        <TextView
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:textSize="25dp"
+            android:id="@+id/lbl_score_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:layout_margin="20dp"
+            android:text="@string/lbl_score_title"
+            android:layout_below="@+id/lbl_score_highest"
             />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lbl_score"
+            android:layout_below="@+id/lbl_score_title"
             android:textColor="#FFF"
-            android:textSize="70dp"
-            android:layout_marginRight="150dp"
-            android:layout_alignTop="@+id/imageButton"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="35dp" />
+            android:textSize="50dp"
+            android:text="0"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+             />
 
         <ImageButton
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_margin="50dp"
             android:scaleType="fitEnd"
             android:layout_width="130dp"
             android:layout_height="130dp"

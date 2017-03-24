@@ -27,7 +27,7 @@ public class PauseActivity extends AppCompatActivity {
 
         lblPause = (TextView)findViewById(R.id.lbl_pause);
         btnBack = (Button) findViewById(R.id.btn_back);
-        btnContinue = (Button)findViewById(R.id.btn_continue);
+        btnContinue = (Button)findViewById(R.id.btn_play_again);
         btnExit = (Button)findViewById(R.id.btn_exit);
 
         // fonts
@@ -51,7 +51,11 @@ public class PauseActivity extends AppCompatActivity {
     }
 
     public void btnExitClicked(View button){
-        System.exit(0);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("Exit me", true);
+        startActivity(intent);
+        finish();
     }
 
     public void btnContinueClicked(View button){
