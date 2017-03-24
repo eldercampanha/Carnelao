@@ -7,96 +7,96 @@
     tools:context="com.app.carnelao.presentation.ui.login.LoginActivity">
 
     <RelativeLayout
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <TextView
+            android:layout_marginTop="50dp"
+            android:textAlignment="center"
             android:id="@+id/lbl_app_name"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:text="Carnelão"
-            android:textAlignment="center"
-            android:textSize="30dp"/>
+            android:textSize="30dp" />
 
         <ImageView
-            android:layout_below="@+id/lbl_app_name"
             android:id="@+id/img_carnelao"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:src="@drawable/carnelao"
-            android:layout_above="@+id/txt_name"/>
+            android:layout_height="200dp"
+            android:layout_below="@+id/lbl_app_name"
+            android:src="@drawable/carnelao" />
 
 
         <EditText
+            android:inputType="text"
             android:id="@+id/txt_name"
-            android:background="#FFF"
-            android:padding="4dp"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:maxLength="12"
-            android:textColorHint="#D3D3D3"
-            android:layout_margin="30dp"
-            android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/fill_your_name" />
+            android:layout_margin="30dp"
+            android:background="#FFF"
+            android:hint="@string/fill_your_name"
+            android:textAlignment="center"
+            android:textColorHint="#D3D3D3"
+            android:textSize="30dp"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:layout_below="@id/img_carnelao"/>
+
 
         <Button
-            android:layout_below="@id/txt_name"
             android:id="@+id/btn_play"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/txt_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/btn_background"
+            android:onClick="btnPlayClicked"
+            android:padding="5dp"
             android:text="@string/Jogar"
             android:textColor="#FFF"
-            android:padding="5dp"
-            android:background="@color/btn_background"
-            android:textSize="30dp"
-            android:layout_centerHorizontal="true"
-            android:onClick="btnPlayClicked" />
+            android:textSize="30dp" />
 
 
         <TextView
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/btn_play"
             android:id="@+id/lbl_score_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_play"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
             android:text="@string/highest_score"
             android:textSize="20dp"
-            android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="30dp"
-            />
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_below="@id/lbl_score_title"
             android:id="@+id/lbl_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/lbl_score_title"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@+id/img_medal"
+            android:layout_toRightOf="@id/img_medal"
             android:text=""
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_toEndOf="@+id/img_medal"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/img_medal" />
+            android:textStyle="bold" />
 
         <ImageView
-            android:layout_marginLeft="30dp"
-            android:layout_below="@+id/lbl_score_title"
             android:id="@+id/img_medal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_ribbon" />
+            android:layout_below="@+id/lbl_score_title"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/ic_ribbon"
+            android:visibility="invisible" />
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

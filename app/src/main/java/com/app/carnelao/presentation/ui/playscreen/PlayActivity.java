@@ -142,7 +142,8 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         if(mMainMediaPlayer != null) {
             mMainMediaPlayer.pause();
         }
-        presenter.pause();
+        if(presenter != null)
+            presenter.pause();
     }
 
     @Override
