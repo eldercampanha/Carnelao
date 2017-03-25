@@ -21,6 +21,8 @@ import com.app.carnelao.presentation.ui.pause.PauseActivity;
 import com.app.carnelao.util.Constants;
 import com.app.carnelao.presentation.ui.helper.TextUtils;
 import com.app.carnelao.util.SharedPreferencesUtil;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import static com.app.carnelao.util.Constants.SCORE_BUNDLE_KEY;
 import static com.app.carnelao.util.Constants.SHARED_PREF_KEY_MUTE;
@@ -55,6 +57,11 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_screen);
 
+        // AdMod
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         // bind views
         imgItem = (ImageView) findViewById(R.id.img_item);
         lblScoreRight = (TextView)findViewById(R.id.lbl_score_right);
@@ -77,6 +84,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         trashTruck.bringToFront();
         lytWall.bringToFront();
         lytButtons.bringToFront();
+        mAdView.bringToFront();
         //lytTop.bringToFront();
 
         getSupportActionBar().hide();
@@ -243,7 +251,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
                 float value = (float) animation.getAnimatedValue();
                 imgItem.setTranslationX(value);
 
-                if(value >= distance){
+                if(value >= distance && presenter != null){
                     if( insideTargetRange())
                       presenter.hitRightSide();
                     else

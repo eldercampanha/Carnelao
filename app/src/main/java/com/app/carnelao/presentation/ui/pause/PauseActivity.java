@@ -12,6 +12,8 @@ import com.app.carnelao.presentation.ui.login.LoginActivity;
 import com.app.carnelao.presentation.ui.playscreen.PlayActivity;
 import com.app.carnelao.util.Constants;
 import com.app.carnelao.presentation.ui.helper.TextUtils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class PauseActivity extends AppCompatActivity {
 
@@ -25,6 +27,10 @@ public class PauseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pause);
 
+        // AdMod
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         lblPause = (TextView)findViewById(R.id.lbl_pause);
         btnBack = (Button) findViewById(R.id.btn_restart);
@@ -44,7 +50,9 @@ public class PauseActivity extends AppCompatActivity {
     }
 
     public void btnRestartClicked(View button){
-        Intent intent = new Intent(PauseActivity.this, PlayActivity.class);
+        Intent intent = new Intent(PauseActivity.this,
+                PlayActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }

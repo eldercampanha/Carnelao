@@ -70,35 +70,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         startActivity(intent);
     }
 
-//    private void showDialog() {
-//
-//        AlertDialog.Builder b = new AlertDialog.Builder(this);
-//        b.setTitle("Digite seu Nome:");
-//        final EditText input = new EditText(this);
-//        b.setView(input);
-//        b.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//                if(mName == null) mName = "Player";
-////                SharedPreferencesUtil.save(mName,getApplicationContext());
-//                intent = new Intent(LoginActivity.this, PlayActivity.class);
-//                intent.putExtra(Constants.NAME_BUNDLE_KEY, mName);
-//                startActivity(intent);
-//            }
-//        });
-//        b.setNegativeButton("Skip", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                mName = "Player";
-//                intent = new Intent(LoginActivity.this, PlayActivity.class);
-//                intent.putExtra(Constants.NAME_BUNDLE_KEY, mName);
-//                startActivity(intent);
-//            }
-//        });
-//        b.show();
-//    }
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -124,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void hideRecordLabel() {
-        imgMedal.setVisibility(View.INVISIBLE);
+
     }
 
 }

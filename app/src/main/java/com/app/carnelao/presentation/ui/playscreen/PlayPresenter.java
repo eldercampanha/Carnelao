@@ -57,7 +57,7 @@ public class PlayPresenter implements PlayContract.Presenter{
             screenHeight = mContext.getResources().getDisplayMetrics().heightPixels;
 
             // used to calculate how much the wall's height should be increased (15%)
-            wallIncreaseValue = (int) (screenHeight * 0.06);
+            wallIncreaseValue = (int) (screenHeight * 0.07);
 
             // set up timer
             if(mTimer == null)

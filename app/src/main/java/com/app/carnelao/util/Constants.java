@@ -75,9 +75,9 @@ public class Constants {
     public static int getRamdomImageId() {
 
         int[] imagesIdVector = new int[]{
-                R.drawable.ic_burial_flat_icon,
-                R.drawable.ic_gun_flat_icon,
-                R.drawable.ic_poison_flat_icon,
+                R.drawable.ic_poison,
+                R.drawable.ic_rat_silhouette,
+                R.drawable.ic_revolver,
                 R.drawable.ic_scissors_flat_icon
         };
 

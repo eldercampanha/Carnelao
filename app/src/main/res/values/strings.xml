@@ -15,4 +15,6 @@
     <string name="game_over">GAME OVER</string>
     <string name="lbl_score_title">Pontuação</string>
     <string name="reiniciar">Reiniciar</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+        <!--pub-5324115865747226</string>-->
 </resources>
