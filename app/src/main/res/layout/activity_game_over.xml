@@ -14,7 +14,7 @@
 
 
         <TextView
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="50dp"
@@ -38,7 +38,7 @@
             android:layout_below="@+id/lbl_title"/>
 
         <Button
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:textAlignment="center"
@@ -54,7 +54,7 @@
         <TextView
             android:layout_below="@id/btn_exit"
             android:gravity="bottom"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:layout_marginLeft="30dp"
             android:layout_width="wrap_content"
             android:id="@+id/lbl_score_highest_title"
@@ -73,7 +73,7 @@
             android:text="0"/>
 
         <TextView
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
             android:textSize="25dp"
             android:id="@+id/lbl_score_title"
@@ -84,6 +84,7 @@
             />
 
         <TextView
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lbl_score"
@@ -93,14 +94,14 @@
             android:text="0"
             android:layout_marginLeft="30dp"
             android:layout_marginBottom="30dp"
-            android:layout_alignParentBottom="true"
              />
 
         <ImageButton
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/lbl_score_highest_title"
             android:layout_marginBottom="50dp"
             android:layout_marginRight="30dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitEnd"
             android:layout_width="130dp"
             android:layout_height="130dp"
@@ -109,6 +110,24 @@
             android:layout_alignParentRight="true"
             android:id="@+id/imageButton" />
 
+        <RelativeLayout
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id">
+            </com.google.android.gms.ads.AdView>
+
+        </RelativeLayout>
 
 
     </RelativeLayout>

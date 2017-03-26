@@ -84,6 +84,8 @@ public class PlayPresenter implements PlayContract.Presenter{
         // reset game variables
         mWallHeight = 5;
         mCountRight = 0;
+        isMoving = false;
+        isPaused = false;
 
         mCurrentLevel = ValueAnimatorLevel.LEVEL_1;
         mTimer.start();
@@ -247,7 +249,9 @@ public class PlayPresenter implements PlayContract.Presenter{
         // reset game variables
         mWallHeight = 5;
         mCountRight = 0;
-        gameOver = true;
+        isMoving = false;
+        gameOver = false;
+        isPaused = false;
         mCurrentLevel = ValueAnimatorLevel.LEVEL_1;
     }
 

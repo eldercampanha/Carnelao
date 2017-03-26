@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.app.carnelao.R;
 import com.app.carnelao.presentation.ui.gameover.GameOverActivity;
+import com.app.carnelao.presentation.ui.login.LoginActivity;
 import com.app.carnelao.presentation.ui.pause.PauseActivity;
 import com.app.carnelao.util.Constants;
 import com.app.carnelao.presentation.ui.helper.TextUtils;
@@ -34,7 +35,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
             mSwipeRightMediaPlayer,
             mFailMediaPlayer,
             mGameOverMediaPlayer,
-            mGateClosingMediaPlayer;
+            mStartGameMediaPlayer;
 
     private ImageButton imgBtnMute;
     private ImageView loadTruck;
@@ -123,7 +124,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         // swipe left and right / gate / fail / game over
         mSwipeLeftMediaPlayer = MediaPlayer.create(this,Constants.SoundId.SWIPE_LEFT.getSoundId());
         mSwipeRightMediaPlayer = MediaPlayer.create(this,Constants.SoundId.SWIPE_RIGHT.getSoundId());
-        mGateClosingMediaPlayer = MediaPlayer.create(this,Constants.SoundId.GATE.getSoundId());
+        mStartGameMediaPlayer = MediaPlayer.create(this,Constants.SoundId.START.getSoundId());
         mFailMediaPlayer = MediaPlayer.create(this,Constants.SoundId.FAIL.getSoundId());
         mGameOverMediaPlayer = MediaPlayer.create(this,Constants.SoundId.GAME_OVER.getSoundId());
 
@@ -158,13 +159,14 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     protected void onResume() {
         super.onResume();
 
+        if(mMainMediaPlayer != null && !isMute) {
+            mMainMediaPlayer.start();
+        }
+
         if(presenter != null && presenter.isGameOver()) {
             presenter.startGame();
             valueAnimator.cancel();
             valueAnimator.start();
-
-            if(mMainMediaPlayer != null && !isMute)
-                mMainMediaPlayer.start();
 
         } else {
             valueAnimator.cancel();
@@ -237,6 +239,7 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
         lblScoreRight.setText("0");
         lytWall.getLayoutParams().height = 5;
         lytWall.requestLayout();
+        mStartGameMediaPlayer.start();
         startConveyorAnimation(finalPosition, animationDuration);
     }
 
@@ -435,9 +438,12 @@ public class PlayActivity extends AppCompatActivity implements PlayContract.View
     @Override
     public void onBackPressed() {
 
-        // presenter should be set to null to avoid the
-        // method startConveyorAnimation to be called one extra time due the animation tix`ming
-        presenter = null;
+        Intent intent = new Intent(PlayActivity.this,
+                LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
         finish();
+
     }
 }

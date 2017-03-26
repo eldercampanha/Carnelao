@@ -60,14 +60,13 @@
             android:onClick="btnExitClicked"
             android:text="@string/btn_exit"
             android:layout_below="@+id/btn_restart"
-/>
+        />
 
         <com.google.android.gms.ads.AdView
-            android:layout_below="@id/btn_exit"
-
+            android:foregroundGravity="bottom"
             android:id="@+id/adView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"

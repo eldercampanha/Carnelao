@@ -31,6 +31,7 @@ public class Constants {
         SWIPE_LEFT(R.raw.swipe_left),
         SWIPE_RIGHT(R.raw.swipe_right),
         FAIL(R.raw.error),
+        START(R.raw.start_game),
         GATE(R.raw.som_fechando_portao),
         GAME_OVER(R.raw.som_fechando_portao);
 

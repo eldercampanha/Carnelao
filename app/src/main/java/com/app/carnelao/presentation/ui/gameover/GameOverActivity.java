@@ -1,6 +1,7 @@
 package com.app.carnelao.presentation.ui.gameover;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +11,11 @@ import android.widget.TextView;
 import com.app.carnelao.R;
 import com.app.carnelao.presentation.ui.helper.TextUtils;
 import com.app.carnelao.presentation.ui.login.LoginActivity;
+import com.app.carnelao.presentation.ui.playscreen.PlayActivity;
 import com.app.carnelao.util.Constants;
 import com.app.carnelao.util.SharedPreferencesUtil;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import static com.app.carnelao.util.Constants.SCORE_BUNDLE_KEY;
 import static com.app.carnelao.util.Constants.SHARED_PREF_KEY_LAST_PLAYER_NAME;
@@ -32,6 +36,8 @@ public class GameOverActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
+
+
 
         String score = getIntent().getExtras().getString(SCORE_BUNDLE_KEY);
         lblScore  = (TextView) findViewById(R.id.lbl_score);
@@ -56,6 +62,11 @@ public class GameOverActivity extends AppCompatActivity {
         TextUtils.setFont(btnExit, Constants.Fonts.BUTTON_FONT, this);
         TextUtils.setFont(btnPlayAgain, Constants.Fonts.BUTTON_FONT, this);
 
+
+        // AdMod
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void calculateScore(String newScore) {

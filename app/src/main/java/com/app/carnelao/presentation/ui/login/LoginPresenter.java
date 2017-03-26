@@ -45,7 +45,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             mView.setPlayerNameText(lastPlayerName);
         }
         if(score != null && recordPlayerName != null) {
-            mView.setScoreText( score+ "pts - "+ lastPlayerName) ;
+            mView.setScoreText( score+ " - "+ lastPlayerName) ;
         }  else {
             mView.hideRecordLabel();
         }
